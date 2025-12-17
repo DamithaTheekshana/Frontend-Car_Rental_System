@@ -5,14 +5,14 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import HomeNavbar from './components/HomeNavbar'
 import HomeCarousel from './components/HomeCarousel'
+import HomePage from './components/HomePage'
 
 function App() {
   // const [count, setCount] = useState(0)
 
   return (
     <>
-      <HomeNavbar/>
-      <HomeCarousel/>
+      <HomePage/>
     </>
   )
 }

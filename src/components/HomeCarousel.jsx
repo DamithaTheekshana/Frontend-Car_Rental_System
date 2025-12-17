@@ -47,7 +47,7 @@ function HomeCarousel() {
             </div>
 
             {/* 🔥 Fixed Center Text Overlay */}
-            <div className="position-absolute top-50 start-50 translate-middle text-center text-white" style={{ padding: "20px 40px"}}>
+            <div className="position-absolute top-50 start-50 translate-middle text-center text-white" style={{ padding: "20px 40px", marginTop: "120px"}}>
                 <h1 style={{background: "rgba(0,0,0,0.4)",
                         borderRadius: "10px",
                     fontSize: "4rem",
@@ -65,7 +65,7 @@ function HomeCarousel() {
                         maxHeight: "150px", // image size adjust
                     }}
                 />
-                <br></br><br></br><br></br><br></br>
+                <br></br>
                 <h5 >Premier Car Rental Services in Sri Lanka</h5>
 
                 
@@ -92,9 +92,13 @@ function HomeCarousel() {
                 <span className="carousel-control-next-icon"></span>
                 <span className="visually-hidden">Next</span>
             </button>
-            </div>
+        </div>
+
+        
+
+        
     </>
-  )
+  ) 
 }
 
 export default HomeCarousel

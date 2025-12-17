@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function HomeNavbar() {
   return (
@@ -14,10 +15,9 @@ function HomeNavbar() {
 
           {/* Right side - Login & Register */}
           <div style={{ display: "flex", gap: "20px" }}>
-            
-            <a href="/login"style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="\img\icons8-login-50.png" alt="Logo" width="50"/>Login</a>
-            
-            <a href="/register"style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="\img\icons8-register-64.png" alt="Logo" width="50"/>Register</a>
+            <Link to={"/"}style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-home-page-30 (1).png" alt="Logo" width="50"/>Home</Link>
+            <Link to={"/loginpage"}style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-login-50.png" alt="Logo" width="50"/>Login</Link>
+            <Link to={"/register"}style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-register-64.png" alt="Logo" width="50"/>Register</Link>
           </div>
         </div>
       </nav>

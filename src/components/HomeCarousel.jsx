@@ -3,7 +3,7 @@ import React from 'react'
 function HomeCarousel() {
   return (
     <>
-      <div id="carouselExample" className="carousel slide position-relative" data-bs-ride="carousel" data-bs-interval="3000"> // 3 seconds per slide 
+      <div id="carouselExample" className="carousel slide position-relative" data-bs-ride="carousel" data-bs-interval="3000">
             {/* Indicators */}
             <div className="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" className="active" aria-label="Slide 1" ></button>

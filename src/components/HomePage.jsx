@@ -1,12 +1,14 @@
 import React from "react";
 import HomeCarousel from "./HomeCarousel";
 import HomeNavbar from "./HomeNavbar";
+import Footer from "./Footer";
 
 function HomePage() {
   return (
     <>
       <HomeNavbar />
       <HomeCarousel />
+      
 
       {/* Content Section */}
       <div style={{textAlign: "center",padding: "40px 20px",maxWidth: "1000px",margin: "0 auto",}}>
@@ -44,7 +46,7 @@ function HomePage() {
             </form>
           </div>
       </nav>
-
+      <Footer/>
     </>
   );
 }

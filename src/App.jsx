@@ -4,9 +4,8 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
-import LoginPage from './components/LoginPage'
-import RegisterPage from './components/RegisterPage'
-import MainPagesBody from './components/MainPagesBody'
+import LoginPage from './Pages/LoginPage'
+import RegisterPage from './Pages/RegisterPage'
 
 function App() {
   // const [count, setCount] = useState(0)

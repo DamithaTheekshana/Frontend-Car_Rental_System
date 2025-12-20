@@ -1,5 +1,5 @@
 import React from 'react'
-import HomeNavbar from './HomeNavbar'
+import HomeNavbar from '../components/HomeNavbar'
 
 function RegisterPage() {
   return (

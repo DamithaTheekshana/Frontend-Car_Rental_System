@@ -4,13 +4,9 @@ import HomeNavbar from "./HomeNavbar";
 import Footer from "./Footer";
 import CarCard from "./CarCard";
 
-function HomePage() {
+function MainPagesBody() {
   return (
     <>
-      <HomeNavbar />
-      <HomeCarousel />
-      
-
       {/* Content Section */}
       <div style={{textAlign: "center",padding: "40px 20px",maxWidth: "1000px",margin: "0 auto",}}>
           {/* Heading */}
@@ -47,11 +43,11 @@ function HomePage() {
             </form>
           </div>
       </nav>
-
-      <div style={{ margin: "50px 100px" }}><CarCard /></div>
-      <Footer />
+      <div style={{margin: "50px 100px"}}>
+        <CarCard/>
+      </div>
     </>
   );
 }
 
-export default HomePage;
+export default MainPagesBody;

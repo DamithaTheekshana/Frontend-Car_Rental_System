@@ -3,11 +3,10 @@
 // import viteLogo from '/vite.svg'
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
-import HomeNavbar from './components/HomeNavbar'
-import HomeCarousel from './components/HomeCarousel'
-import HomePage from './components/HomePage'
+import HomePage from './Pages/HomePage'
 import LoginPage from './components/LoginPage'
 import RegisterPage from './components/RegisterPage'
+import MainPagesBody from './components/MainPagesBody'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -20,6 +19,7 @@ function App() {
         <Route path="/register" element={<RegisterPage/>}></Route>
       </Routes>
     </>
+  
   )
 }
 

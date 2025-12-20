@@ -2,6 +2,7 @@ import React from "react";
 import HomeCarousel from "./HomeCarousel";
 import HomeNavbar from "./HomeNavbar";
 import Footer from "./Footer";
+import CarCard from "./CarCard";
 
 function HomePage() {
   return (
@@ -46,7 +47,9 @@ function HomePage() {
             </form>
           </div>
       </nav>
-      <Footer/>
+
+      <div style={{ margin: "50px 100px" }}><CarCard /></div>
+      <Footer />
     </>
   );
 }

@@ -44,7 +44,7 @@ function MainPagesBody({ vehicles }) {
           </div>
       </nav>
       <div style={{margin: "50px 100px"}}>
-        <CarCard/>
+        <CarCard vehicle={vehicles[0]} />
       </div>
     </>
   );

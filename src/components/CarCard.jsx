@@ -1,6 +1,6 @@
 import React from "react";
 
-function CarCard() {
+function CarCard({ vehicle }) {
 
   const cardStyle = {
     background: "#9e9797",
@@ -60,7 +60,7 @@ function CarCard() {
 
       {/* LEFT SIDE */}
       <div style={leftStyle}>
-        <h2 style={titleStyle}>Yaris Cross</h2>
+        <h2 style={titleStyle}>{vehicle?.model}</h2>
 
         {/* Car Image */}
         <img
@@ -89,27 +89,27 @@ function CarCard() {
 
         <div style={infoRowStyle}>
           <img src="/img/icons8-price-50.png" alt="price" width="25" />
-          <span>2500</span>
+          <span>{vehicle?.dailyRate}</span>
         </div>
 
         <div style={infoRowStyle}>
           <img src="/img/icons8-car-seat-50.png" alt="seat" width="25" />
-          <span>5</span>
+          <span>{vehicle?.seat}</span>
         </div>
 
         <div style={infoRowStyle}>
           <img src="/img/icons8-brand-64.png" alt="brand" width="25" />
-          <span>Toyota</span>
+          <span>{vehicle?.brand}</span>
         </div>
 
         <div style={infoRowStyle}>
           <img src="/img/icons8-gas-station-48.png" alt="fuel" width="25" />
-          <span>Electric</span>
+          <span>{vehicle?.fuelType}</span>
         </div>
 
         <div style={infoRowStyle}>
           <img src="/img/icons8-car-50.png" alt="type" width="25" />
-          <span>Car</span>
+          <span>{vehicle?.type}</span>
         </div>
 
       </div>

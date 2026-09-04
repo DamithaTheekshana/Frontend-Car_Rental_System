@@ -24,7 +24,7 @@ function HomePage() {
     <>
     <HomeNavbar/>
     <HomeCarousel/>
-    <MainPagesBody/>
+    <MainPagesBody vehicles={vehicles}/>
     <Footer/>
     </>
   )

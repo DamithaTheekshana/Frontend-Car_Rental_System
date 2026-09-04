@@ -4,7 +4,7 @@ import HomeNavbar from "./HomeNavbar";
 import Footer from "./Footer";
 import CarCard from "./CarCard";
 
-function MainPagesBody() {
+function MainPagesBody({ vehicles }) {
   return (
     <>
       {/* Content Section */}

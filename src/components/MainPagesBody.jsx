@@ -43,8 +43,13 @@ function MainPagesBody({ vehicles }) {
             </form>
           </div>
       </nav>
-      <div style={{margin: "50px 100px"}}>
-        <CarCard vehicle={vehicles[0]} />
+      <div style={{ margin: "50px 100px" }}>
+        {vehicles.map((vehicle) => (
+          <CarCard
+            key={vehicle.vehicleId}
+            vehicle={vehicle}
+          />
+        ))}
       </div>
     </>
   );

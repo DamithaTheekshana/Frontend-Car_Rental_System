@@ -2,6 +2,8 @@ import React from "react";
 
 function CarCard({ vehicle }) {
 
+  console.log("Image Path:", vehicle?.imagePath);
+
   const cardStyle = {
     background: "#9e9797",
     borderRadius: "20px",
@@ -64,8 +66,8 @@ function CarCard({ vehicle }) {
 
         {/* Car Image */}
         <img
-          src="/img/toyota-yaris-cross-side-thumbnail.webp"
-          alt="Car"
+          src={`http://localhost:8080/uploads/${vehicle?.imagePath}`}
+          alt={vehicle?.model}
           style={{ width: "100%", marginBottom: "10px" }}
         />
 

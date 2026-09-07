@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HomeNavbar from '../components/HomeNavbar'
 
 function LoginPage() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <>
         <HomeNavbar/>
@@ -17,11 +21,11 @@ function LoginPage() {
                     {/* Form */}
                     <form style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px" }}>
 
-                    <label>Username</label>
-                    <input type="text"placeholder="Enter your username"style={{padding: "10px",borderRadius: "6px",border: "1px solid #ccc",}}/>
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} style={{padding: "10px",borderRadius: "6px",border: "1px solid #ccc"}}/>
 
                     <label>Password</label>
-                    <input type="password"placeholder="Enter your password"style={{padding: "10px",borderRadius: "6px",border: "1px solid #ccc",}}/>
+                    <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} style={{padding: "10px",borderRadius: "6px",border: "1px solid #ccc",}}/>
 
                     <button type="submit"style={{marginTop: "10px",padding: "10px",borderRadius: "6px",border: "none",backgroundColor: "#3e5b2b",color: "white",fontWeight: "bold",cursor: "pointer",}}>
                         Log-In

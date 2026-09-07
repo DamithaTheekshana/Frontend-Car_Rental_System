@@ -6,6 +6,37 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+    const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const loginData = {
+        email,
+        password
+    };
+
+    console.log("Login Data:", loginData);
+
+    try {
+        const response = await fetch("http://localhost:8080/user/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginData)
+        });
+
+        if (!response.ok) {
+        throw new Error("Login failed");
+        }
+
+        const data = await response.json();
+        console.log("Login Success:", data);
+
+    } catch (error) {
+        console.error("Login Error:", error);
+    }
+    };
+
   return (
     <>
         <HomeNavbar/>
@@ -19,7 +50,7 @@ function LoginPage() {
                     </div>
 
                     {/* Form */}
-                    <form style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px" }}>
+                    <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px" }}>
 
                     <label>Email</label>
                     <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} style={{padding: "10px",borderRadius: "6px",border: "1px solid #ccc"}}/>

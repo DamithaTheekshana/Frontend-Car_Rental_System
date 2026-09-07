@@ -11,43 +11,43 @@ function RegisterPage() {
   const [nic, setNic] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
-  e.preventDefault();
+    const handleRegister = async (e) => {
+    e.preventDefault();
 
-  const userData = {
-    fullName,
-    email,
-    password,
-    phoneNumber,
-    nic,
-    role: "CUSTOMER"
-  };
+    const userData = {
+        fullName,
+        email,
+        password,
+        phoneNumber,
+        nic,
+        role: "CUSTOMER"
+    };
 
-  console.log("Register Data:", userData);
+    console.log("Register Data:", userData);
 
-  try {
-    const response = await fetch("http://localhost:8080/user/userregister", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(userData)
-    });
+    try {
+        const response = await fetch("http://localhost:8080/user/userregister", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+        });
 
-    if (!response.ok) {
-      throw new Error("Registration failed");
+        if (!response.ok) {
+        throw new Error("Registration failed");
+        }
+
+        const data = await response.json();
+        console.log("Registration Success:", data);
+
+        alert("Registration successful!");
+        navigate("/loginpage");
+
+    } catch (error) {
+        console.error("Registration Error:", error);
     }
-
-    const data = await response.json();
-    console.log("Registration Success:", data);
-
-    alert("Registration successful!");
-    navigate("/loginpage");
-
-  } catch (error) {
-    console.error("Registration Error:", error);
-  }
-};
+    };
 
   return (
     <>

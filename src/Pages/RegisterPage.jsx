@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import HomeNavbar from '../components/HomeNavbar'
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
 
@@ -8,6 +9,45 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [nic, setNic] = useState("");
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+  e.preventDefault();
+
+  const userData = {
+    fullName,
+    email,
+    password,
+    phoneNumber,
+    nic,
+    role: "CUSTOMER"
+  };
+
+  console.log("Register Data:", userData);
+
+  try {
+    const response = await fetch("http://localhost:8080/user/userregister", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userData)
+    });
+
+    if (!response.ok) {
+      throw new Error("Registration failed");
+    }
+
+    const data = await response.json();
+    console.log("Registration Success:", data);
+
+    alert("Registration successful!");
+    navigate("/loginpage");
+
+  } catch (error) {
+    console.error("Registration Error:", error);
+  }
+};
 
   return (
     <>
@@ -25,7 +65,7 @@ function RegisterPage() {
                 </div>
 
                 {/* Form */}
-                <form>
+                <form onSubmit={handleRegister}>
                     <div className="mb-3">
                     <label className="form-label">Name</label>
                     <input type="text" className="form-control" placeholder="Enter your name" value={fullName} onChange={(e) => setFullName(e.target.value)}/>
@@ -51,7 +91,7 @@ function RegisterPage() {
                         <input type="text" className="form-control" placeholder="Enter your ID number" value={nic} onChange={(e) => setNic(e.target.value)}/>
                     </div>
 
-                    <button type="button"className="btn"style={{backgroundColor: "#3b6a25",color: "white",width: "100%",marginBottom: "15px"}}>Sign-up</button>
+                    <button type="submit"className="btn"style={{backgroundColor: "#3b6a25",color: "white",width: "100%",marginBottom: "15px"}}>Sign-up</button>
 
                     {/* Social login */}
                     <div className="d-flex justify-content-between gap-2">

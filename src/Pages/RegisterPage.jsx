@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HomeNavbar from '../components/HomeNavbar'
 
 function RegisterPage() {
+
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [nic, setNic] = useState("");
+
   return (
     <>
 
@@ -21,27 +28,27 @@ function RegisterPage() {
                 <form>
                     <div className="mb-3">
                     <label className="form-label">Name</label>
-                    <input type="text" className="form-control" placeholder="Enter your name"/>
+                    <input type="text" className="form-control" placeholder="Enter your name" value={fullName} onChange={(e) => setFullName(e.target.value)}/>
                     </div>
 
                     <div className="mb-3">
                         <label className="form-label">Email address</label>
-                        <input type="email" className="form-control"placeholder="Enter your email"/>
+                        <input type="email" className="form-control" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </div>
 
                     <div className="mb-3">
                         <label className="form-label">Password</label>
-                        <input type="password"className="form-control" placeholder="Enter your password"/>
+                        <input type="password" className="form-control" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </div>
 
                     <div className="mb-3">
                         <label className="form-label">Phone</label>
-                        <input type="tel"className="form-control"placeholder="Enter your phone number"/>
+                        <input type="tel" className="form-control" placeholder="Enter your phone number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/>
                     </div>
 
                     <div className="mb-3">
                         <label className="form-label">ID Number</label>
-                        <input type="text"className="form-control"placeholder="Enter your ID number"/>
+                        <input type="text" className="form-control" placeholder="Enter your ID number" value={nic} onChange={(e) => setNic(e.target.value)}/>
                     </div>
 
                     <button type="button"className="btn"style={{backgroundColor: "#3b6a25",color: "white",width: "100%",marginBottom: "15px"}}>Sign-up</button>

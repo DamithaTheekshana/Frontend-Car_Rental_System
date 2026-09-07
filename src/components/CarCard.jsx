@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CarCard({ vehicle }) {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   console.log("Image Path:", vehicle?.imagePath);
 
@@ -57,6 +64,23 @@ function CarCard({ vehicle }) {
     gap: "8px"
   };
 
+  const handleBookNow = () => {
+  if (!user) {
+    navigate("/loginpage");
+    return;
+  }
+
+  if (!fromDate || !toDate) {
+    alert("Please select both From and To dates.");
+    return;
+  }
+
+  console.log("Logged User:", user);
+  console.log("Selected Vehicle:", vehicle);
+  console.log("From Date:", fromDate);
+  console.log("To Date:", toDate);
+};
+
   return (
     <div style={cardStyle}>
 
@@ -75,15 +99,15 @@ function CarCard({ vehicle }) {
         <div style={{ display: "flex", gap: "10px" }}>
           <div style={{ width: "50%" }}>
             <p>From</p>
-            <input type="date" style={inputStyle} />
+            <input type="date" style={inputStyle} value={fromDate} onChange={(e) => setFromDate(e.target.value)}/>
           </div>
           <div style={{ width: "50%" }}>
             <p>To</p>
-            <input type="date" style={inputStyle} />
+            <input type="date" style={inputStyle} value={toDate} onChange={(e) => setToDate(e.target.value)}/>
           </div>
         </div>
 
-        <button style={bookBtnStyle}>Book Now!!!</button>
+        <button style={bookBtnStyle} onClick={handleBookNow}>Book Now!!!</button>
       </div>
 
       {/* RIGHT SIDE */}

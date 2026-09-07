@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import HomeNavbar from '../components/HomeNavbar'
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
     const handleLogin = async (e) => {
     e.preventDefault();
@@ -31,6 +34,14 @@ function LoginPage() {
 
         const data = await response.json();
         console.log("Login Success:", data);
+
+        localStorage.setItem("user", JSON.stringify(data));
+
+        if (data.role === "ADMIN") {
+            navigate("/admin");
+        } else {
+            navigate("/");
+        }
 
     } catch (error) {
         console.error("Login Error:", error);

@@ -6,7 +6,6 @@ import { Routes, Route } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
 import LoginPage from './Pages/LoginPage'
 import RegisterPage from './Pages/RegisterPage'
-import AdminNavbar from './components/AdminNavbar'
 import AdminHomePage from './Pages/AdminHomePage'
 import MyBookingsPage from "./Pages/MyBookingsPage";
 
@@ -17,6 +16,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<HomePage/>}></Route>
+        <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/loginpage" element={<LoginPage/>}></Route>
         <Route path="/register" element={<RegisterPage/>}></Route>
         <Route path="/mybookings" element={<MyBookingsPage />} />

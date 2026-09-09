@@ -71,7 +71,7 @@ function MyBookingsPage() {
             style={{display: "flex",flexWrap: "wrap",gap: "20px", marginTop: "30px"}}>
             {bookings.map((booking) => (
                 <div key={booking.bookingId} style={{width: "300px",border: "1px solid #ddd",borderRadius: "10px",padding: "20px",boxShadow: "0 2px 8px rgba(0,0,0,0.1)"}}>
-                <img src={`http://localhost:8080/uploads/${booking.vehicleImage}`}alt={booking.vehicleModel}style={{width: "100%", height: "170px",objectFit: "cover",borderRadius: "8px"}}/>
+                <img src={`http://localhost:8080/uploads/${booking.vehicleImage}`}alt={booking.vehicleModel}style={{width: "100%", height: "170px",objectFit: "contain",borderRadius: "8px"}}/>
 
                 <h3 style={{ marginTop: "15px" }}>
                     {booking.vehicleModel}

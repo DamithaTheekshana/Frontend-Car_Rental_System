@@ -64,7 +64,7 @@ function CarCard({ vehicle }) {
     gap: "8px"
   };
 
-  const handleBookNow = () => {
+  const handleBookNow = async () => {
   if (!user) {
     navigate("/loginpage");
     return;
@@ -75,10 +75,34 @@ function CarCard({ vehicle }) {
     return;
   }
 
-  console.log("Logged User:", user);
-  console.log("Selected Vehicle:", vehicle);
-  console.log("From Date:", fromDate);
-  console.log("To Date:", toDate);
+  const bookingData = {
+    userId: user.userId,
+    vehicleId: vehicle.vehicleId,
+    startDate: fromDate,
+    endDate: toDate
+  };
+
+    console.log("Booking Data:", bookingData);
+
+      try {
+    const response = await fetch("http://localhost:8080/booking/addBooking", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bookingData)
+    });
+
+    if (!response.ok) {
+      throw new Error("Booking failed");
+    }
+
+    alert("Booking successfully submitted!");
+
+  } catch (error) {
+    console.error("Booking Error:", error);
+    alert("Booking failed!");
+  }
 };
 
   return (

@@ -29,6 +29,40 @@ function AdminHomePage() {
 
   }, []);
 
+  const handleUpdateStatus = async (bookingId, status) => {
+  try {
+    const response = await fetch(
+      "http://localhost:8080/booking/update-status",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          bookingId: bookingId,
+          status: status
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Status update failed");
+    }
+
+    alert(`Booking ${status.toLowerCase()} successfully!`);
+
+    setBookings((prevBookings) =>
+      prevBookings.filter(
+        (booking) => booking.bookingId !== bookingId
+      )
+    );
+
+    } catch (error) {
+      console.error("Update Status Error:", error);
+      alert("Status update failed!");
+    }
+  };
+
   return (
     <>
       <AdminNavbar/>
@@ -91,6 +125,9 @@ function AdminHomePage() {
                         }}
                       >
                         <button
+                          onClick={() =>
+                            handleUpdateStatus(booking.bookingId, "APPROVED")
+                          }
                           style={{
                             flex: 1,
                             padding: "10px",
@@ -106,6 +143,9 @@ function AdminHomePage() {
                         </button>
 
                         <button
+                          onClick={() =>
+                            handleUpdateStatus(booking.bookingId, "REJECTED")
+                          }
                           style={{
                             flex: 1,
                             padding: "10px",

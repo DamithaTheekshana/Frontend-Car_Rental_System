@@ -31,6 +31,11 @@ function HomeNavbar() {
 
               {user ? (
               <>
+
+                <Link to="/mybookings"style={{color: "white",textDecoration: "none",fontWeight: "600"}}>
+                    My Bookings
+                </Link>
+                
                   <span style={{ color: "white", fontWeight: "600" }}>
                     Welcome, {user.fullName}
                   </span>

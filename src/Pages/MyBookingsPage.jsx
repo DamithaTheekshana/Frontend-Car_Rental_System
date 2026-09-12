@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import HomeNavbar from "../components/HomeNavbar";
+import "./MyBookingsPage.css";
 
 function MyBookingsPage() {
 
@@ -132,159 +133,203 @@ const handlePayment = async (booking) => {
   }, []);
 
   return (
-    <>
-      <HomeNavbar />
+  <>
+    <HomeNavbar />
 
-      <div style={{ padding: "40px" }}>
-        <h2>My Bookings</h2>
+    <div style={{ padding: "40px" }}>
+      <h2>My Bookings</h2>
 
-        <p>Total Bookings: {bookings.length}</p>
+      <p>Total Bookings: {bookings.length}</p>
+
+
+      {/* CURRENT BOOKINGS SECTION */}
+      <div style={{ marginTop: "40px" }}>
+
+        <h2 style={{ marginBottom: "25px" }}>
+          Current Bookings
+        </h2>
 
         <div
-            style={{display: "flex",flexWrap: "wrap",gap: "20px", marginTop: "30px"}}>
-            <h3 style={{ marginTop: "30px" }}>Current Bookings</h3>
-
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "20px"
+          }}
+        >
+          {currentBookings.map((booking) => (
             <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "20px",
-                marginTop: "20px"
-              }}
+              key={booking.bookingId}
+              className="current-booking-card"
             >
-              {currentBookings.map((booking) => (
-                <div
-                  key={booking.bookingId}
+              <img
+                src={`http://localhost:8080/uploads/${booking.vehicleImage}`}
+                alt={booking.vehicleModel}
+                className="current-booking-image"
+              />
+
+              <h3 style={{ marginTop: "15px" }}>
+                {booking.vehicleModel}
+              </h3>
+
+              <div className="booking-details">
+                <p><strong>From:</strong> {booking.startDate}</p>
+                <p><strong>To:</strong> {booking.endDate}</p>
+                <p><strong>Total Days:</strong> {booking.totalDays}</p>
+                <p><strong>Daily Rate:</strong> Rs. {booking.dailyRate}</p>
+
+                <p className="booking-amount">
+                  Total Amount: Rs. {booking.totalAmount}
+                </p>
+              </div>
+              <div className="booking-status-row">
+
+              <div>
+                <strong>Status: </strong>
+
+                <span
                   style={{
-                    width: "300px",
-                    border: "1px solid #ddd",
-                    borderRadius: "10px",
-                    padding: "20px",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+                    padding: "5px 10px",
+                    borderRadius: "15px",
+                    fontSize: "13px",
+                    fontWeight: "600",
+                    backgroundColor:
+                      booking.status === "APPROVED"
+                        ? "#d1e7dd"
+                        : "#fff3cd",
+                    color:
+                      booking.status === "APPROVED"
+                        ? "#0f5132"
+                        : "#664d03"
                   }}
                 >
-                  <img
-                    src={`http://localhost:8080/uploads/${booking.vehicleImage}`}
-                    alt={booking.vehicleModel}
-                    style={{
-                      width: "100%",
-                      height: "170px",
-                      objectFit: "contain",
-                      borderRadius: "8px"
-                    }}
-                  />
+                  {booking.status}
+                </span>
+              </div>
 
-                  <h3 style={{ marginTop: "15px" }}>
-                    {booking.vehicleModel}
-                  </h3>
+              <div>
+                <strong>Payment: </strong>
 
-                  <p><strong>From:</strong> {booking.startDate}</p>
-                  <p><strong>To:</strong> {booking.endDate}</p>
-                  <p><strong>Total Days:</strong> {booking.totalDays}</p>
-                  <p><strong>Daily Rate:</strong> Rs. {booking.dailyRate}</p>
-                  <p><strong>Total Amount:</strong> Rs. {booking.totalAmount}</p>
-                  <p><strong>Status:</strong> {booking.status}</p>
-                  <p><strong>Payment:</strong> {booking.paymentStatus}</p>
+                <span className="payment-status">
+                  {booking.paymentStatus}
+                </span>
+              </div>
 
-                  {booking.status === "PENDING" && (
-                    <button
-                      onClick={() => handleCancelBooking(booking.bookingId)}
+            </div>
+
+              {booking.status === "PENDING" && (
+                <button
+                  onClick={() =>
+                    handleCancelBooking(booking.bookingId)
+                  }
+                  className="booking-action-btn cancel-btn"
+                >
+                  Cancel Booking
+                </button>
+              )}
+
+              {booking.status === "APPROVED" &&
+                booking.paymentStatus === "UNPAID" && (
+                  <button
+                    onClick={() => handlePayment(booking)}
+                    className="booking-action-btn pay-btn"
+                  >
+                    Pay Now
+                  </button>
+                )}
+            </div>
+          ))}
+        </div>
+
+      </div>
+
+
+      {/* BOOKING HISTORY SECTION */}
+      <div style={{ marginTop: "60px" }}>
+
+        <h2 style={{ marginBottom: "25px" }}>
+          Booking History
+        </h2>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "20px"
+          }}
+        >
+          {history.map((item) => (
+            <div
+              key={item.historyId}
+              style={{
+                width: "300px",
+                border: "1px solid #ddd",
+                borderRadius: "10px",
+                padding: "20px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+              }}
+            >
+              <img
+                src={`http://localhost:8080/uploads/${item.vehicleImage}`}
+                alt={item.vehicleModel}
+                style={{
+                  width: "100%",
+                  height: "170px",
+                  objectFit: "contain",
+                  borderRadius: "8px",
+                  marginBottom: "15px"
+                }}
+              />
+
+              <h3>{item.vehicleModel}</h3>
+
+              <p>
+                <strong>From:</strong> {item.startDate}
+              </p>
+
+              <p>
+                <strong>To:</strong> {item.endDate}
+              </p>
+
+              <p>
+                <strong>Total Amount:</strong> Rs. {item.total}
+              </p>
+
+              <p>
+                <strong>Status: </strong>
+
+                    <span
                       style={{
-                        width: "100%",
-                        marginTop: "15px",
-                        padding: "10px",
-                        backgroundColor: "#dc3545",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                        fontWeight: "600"
+                        padding: "5px 10px",
+                        borderRadius: "15px",
+                        fontSize: "13px",
+                        fontWeight: "600",
+
+                        backgroundColor:
+                          item.status === "COMPLETED"
+                            ? "#d1e7dd"
+                            : item.status === "REJECTED"
+                            ? "#f8d7da"
+                            : "#e2e3e5",
+
+                        color:
+                          item.status === "COMPLETED"
+                            ? "#0f5132"
+                            : item.status === "REJECTED"
+                            ? "#842029"
+                            : "#41464b"
                       }}
                     >
-                      Cancel Booking
-                    </button>
-                  )}
-
-                  {booking.status === "APPROVED" &&
-                    booking.paymentStatus === "UNPAID" && (
-                      <button
-                        onClick={() => handlePayment(booking)}
-                        style={{
-                          width: "100%",
-                          marginTop: "15px",
-                          padding: "10px",
-                          backgroundColor: "#198754",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "6px",
-                          cursor: "pointer",
-                          fontWeight: "600"
-                        }}
-                      >
-                        Pay Now
-                      </button>
-                    )}
-                </div>
-              ))}
+                      {item.status}
+                    </span>
+              </p>
             </div>
+          ))}
+        </div>
 
-            <h3 style={{ marginTop: "50px" }}>Booking History</h3>
-
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "20px",
-                marginTop: "20px"
-              }}
-            >
-              {history.map((item) => (
-                <div
-                  key={item.historyId}
-                  style={{
-                    width: "300px",
-                    border: "1px solid #ddd",
-                    borderRadius: "10px",
-                    padding: "20px",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
-                  }}
-                >
-                  <img
-                    src={`http://localhost:8080/uploads/${item.vehicleImage}`}
-                    alt={item.vehicleModel}
-                    style={{
-                      width: "100%",
-                      height: "170px",
-                      objectFit: "contain",
-                      borderRadius: "8px",
-                      marginBottom: "15px"
-                    }}
-                  />
-
-                  <h3>{item.vehicleModel}</h3>
-
-                  <p>
-                    <strong>From:</strong> {item.startDate}
-                  </p>
-
-                  <p>
-                    <strong>To:</strong> {item.endDate}
-                  </p>
-
-                  <p>
-                    <strong>Total Amount:</strong> Rs. {item.total}
-                  </p>
-
-                  <p>
-                    <strong>Status:</strong> {item.status}
-                  </p>
-                </div>
-              ))}
-            </div>
-            </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }
 
 export default MyBookingsPage;

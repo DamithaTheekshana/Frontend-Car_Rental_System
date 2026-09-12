@@ -34,6 +34,50 @@ function MyBookingsPage() {
   }
 };
 
+const handlePayment = async (booking) => {
+  try {
+    const paymentData = {
+      bookingId: booking.bookingId,
+      amount: booking.totalAmount
+    };
+
+    console.log("Payment Data:", paymentData);
+
+    const response = await fetch(
+      "http://localhost:8080/payment/addPayment",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(paymentData)
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Payment failed");
+    }
+
+    alert("Payment completed successfully!");
+
+    setBookings((prevBookings) =>
+      prevBookings.map((item) =>
+        item.bookingId === booking.bookingId
+          ? {
+              ...item,
+              paymentStatus: "PAID",
+              status: "SUCCESS"
+            }
+          : item
+      )
+    );
+
+  } catch (error) {
+    console.error("Payment Error:", error);
+    alert("Payment failed!");
+  }
+};
+
   useEffect(() => {
 
     if (!user) {
@@ -122,6 +166,27 @@ function MyBookingsPage() {
                         Cancel Booking
                     </button>
                     )}
+
+                    {booking.status === "APPROVED" &&
+                    booking.paymentStatus === "UNPAID" && (
+                      <button
+                        onClick={() => handlePayment(booking)}
+                        style={{
+                          width: "100%",
+                          marginTop: "15px",
+                          padding: "10px",
+                          backgroundColor: "#198754",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "6px",
+                          cursor: "pointer",
+                          fontWeight: "600"
+                        }}
+                      >
+                        Pay Now
+                      </button>
+                  )}
+
                 </div>
             ))}
             </div>

@@ -8,6 +8,8 @@ import LoginPage from './Pages/LoginPage'
 import RegisterPage from './Pages/RegisterPage'
 import AdminHomePage from './Pages/AdminHomePage'
 import MyBookingsPage from "./Pages/MyBookingsPage";
+import ManageVehiclesPage from "./Pages/ManageVehiclesPage";
+
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -20,6 +22,7 @@ function App() {
         <Route path="/loginpage" element={<LoginPage/>}></Route>
         <Route path="/register" element={<RegisterPage/>}></Route>
         <Route path="/mybookings" element={<MyBookingsPage />} />
+        <Route path="/admin/vehicles" element={<ManageVehiclesPage />}/>
       </Routes>
     </>
   

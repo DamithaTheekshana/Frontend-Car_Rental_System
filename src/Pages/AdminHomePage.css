@@ -1,0 +1,142 @@
+.admin-bookings-section {
+    padding: 40px 80px;
+}
+
+.admin-bookings-title {
+    margin-bottom: 8px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.admin-bookings-count {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.admin-bookings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 350px));
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.admin-booking-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-booking-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.13);
+}
+
+.admin-booking-image {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.admin-booking-card h3 {
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.admin-booking-details p {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.admin-booking-amount {
+    margin-top: 15px !important;
+    padding-top: 12px;
+    border-top: 1px solid #eeeeee;
+    font-size: 16px !important;
+    font-weight: 600;
+}
+
+.admin-booking-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.admin-action-btn {
+    flex: 1;
+    padding: 11px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.admin-action-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.admin-approve-btn {
+    background: #198754;
+    color: white;
+}
+
+.admin-reject-btn {
+    background: #dc3545;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .admin-bookings-section {
+        padding: 30px 20px;
+    }
+
+    .admin-bookings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-booking-card {
+        max-width: 100%;
+    }
+}
+
+.admin-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.admin-status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-pending-badge {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.admin-approved-badge {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.admin-payment-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #e2e3e5;
+    color: #41464b;
+}

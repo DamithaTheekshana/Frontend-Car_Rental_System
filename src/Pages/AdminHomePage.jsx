@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import AdminNavbar from '../components/AdminNavbar'
 import HomeCarousel from '../components/HomeCarousel'
-// import MainPagesBody from '../components/MainPagesBody'
 import Footer from '../components/Footer'
+import "./AdminHomePage.css";
 
 function AdminHomePage() {
 
@@ -64,111 +64,128 @@ function AdminHomePage() {
   };
 
   return (
-    <>
-      <AdminNavbar/>
-      <HomeCarousel/>
+  <>
+    <AdminNavbar />
+    <HomeCarousel />
 
-          <div style={{ padding: "40px 80px" }}>
+    <div className="admin-bookings-section">
 
-            <h2 style={{ marginBottom: "25px" }}>Pending Bookings</h2>
+      <h2 className="admin-bookings-title">
+        Pending & Unpaid Bookings
+      </h2>
 
-            <p>Total Bookings: {bookings.length}</p>
+      <p className="admin-bookings-count">
+        Total Bookings: {bookings.length}
+      </p>
 
-            <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                  gap: "25px",
-                  marginTop: "25px"
-                }}
-              >
-                {bookings.map((booking) => (
-                  <div
-                    key={booking.bookingId}
-                    style={{
-                      maxWidth: "350px",
-                      border: "1px solid #ddd",
-                      borderRadius: "12px",
-                      padding: "18px",
-                      boxShadow: "0 3px 10px rgba(0,0,0,0.08)",
-                      backgroundColor: "white"
-                    }}
+      <div className="admin-bookings-grid">
+
+        {bookings.map((booking) => (
+          <div
+            key={booking.bookingId}
+            className="admin-booking-card"
+          >
+
+            <img
+              src={`http://localhost:8080/uploads/${booking.vehicleImage}`}
+              alt={booking.vehicleModel}
+              className="admin-booking-image"
+            />
+
+            <h3>{booking.vehicleModel}</h3>
+
+            <div className="admin-booking-details">
+
+              <p>
+                <strong>Customer:</strong> {booking.customerName}
+              </p>
+
+              <p>
+                <strong>From:</strong> {booking.startDate}
+              </p>
+
+              <p>
+                <strong>To:</strong> {booking.endDate}
+              </p>
+
+              <p>
+                <strong>Total Days:</strong> {booking.totalDays}
+              </p>
+
+              <p>
+                <strong>Daily Rate:</strong> Rs. {booking.dailyRate}
+              </p>
+
+              <p className="admin-booking-amount">
+                Total Amount: Rs. {booking.totalAmount}
+              </p>
+
+              <div className="admin-status-row">
+
+                <div>
+                  <strong>Status: </strong>
+
+                  <span
+                    className={`admin-status-badge ${
+                      booking.status === "APPROVED"
+                        ? "admin-approved-badge"
+                        : "admin-pending-badge"
+                    }`}
                   >
-                    <img
-                      src={`http://localhost:8080/uploads/${booking.vehicleImage}`}
-                      alt={booking.vehicleModel}
-                      style={{
-                        width: "100%",
-                        height: "170px",
-                        objectFit: "contain",
-                        borderRadius: "8px",
-                        marginBottom: "15px"
-                      }}
-                    />
+                    {booking.status}
+                  </span>
+                </div>
 
-                    <h3>{booking.vehicleModel}</h3>
+                <div>
+                  <strong>Payment: </strong>
 
-                    <p><strong>Customer:</strong> {booking.customerName}</p>
-                    <p><strong>From:</strong> {booking.startDate}</p>
-                    <p><strong>To:</strong> {booking.endDate}</p>
-                    <p><strong>Total Days:</strong> {booking.totalDays}</p>
-                    <p><strong>Daily Rate:</strong> Rs. {booking.dailyRate}</p>
-                    <p><strong>Total Amount:</strong> Rs. {booking.totalAmount}</p>
-                    <p><strong>Status:</strong> {booking.status}</p>
-                    <p><strong>Payment:</strong> {booking.paymentStatus}</p>
+                  <span className="admin-payment-badge">
+                    {booking.paymentStatus}
+                  </span>
+                </div>
 
-                    <div
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          marginTop: "15px"
-                        }}
-                      >
-                        <button
-                          onClick={() =>
-                            handleUpdateStatus(booking.bookingId, "APPROVED")
-                          }
-                          style={{
-                            flex: 1,
-                            padding: "10px",
-                            backgroundColor: "#198754",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "6px",
-                            cursor: "pointer",
-                            fontWeight: "600"
-                          }}
-                        >
-                          Approve
-                        </button>
+              </div>
 
-                        <button
-                          onClick={() =>
-                            handleUpdateStatus(booking.bookingId, "REJECTED")
-                          }
-                          style={{
-                            flex: 1,
-                            padding: "10px",
-                            backgroundColor: "#dc3545",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "6px",
-                            cursor: "pointer",
-                            fontWeight: "600"
-                          }}
-                        >
-                          Reject
-                        </button>
-                      </div>
-                                     
-                  </div>
-                ))}
+            </div>
+
+            <div className="admin-booking-actions">
+
+              <button
+                onClick={() =>
+                  handleUpdateStatus(
+                    booking.bookingId,
+                    "APPROVED"
+                  )
+                }
+                className="admin-action-btn admin-approve-btn"
+              >
+                Approve
+              </button>
+
+              <button
+                onClick={() =>
+                  handleUpdateStatus(
+                    booking.bookingId,
+                    "REJECTED"
+                  )
+                }
+                className="admin-action-btn admin-reject-btn"
+              >
+                Reject
+              </button>
+
             </div>
 
           </div>
-      <Footer/>
-    </>
-  )
+        ))}
+
+      </div>
+
+    </div>
+
+    <Footer />
+  </>
+);
 }
 
 export default AdminHomePage

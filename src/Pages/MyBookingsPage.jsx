@@ -259,40 +259,32 @@ const handlePayment = async (booking) => {
         >
           {history.map((item) => (
             <div
-              key={item.historyId}
-              style={{
-                width: "300px",
-                border: "1px solid #ddd",
-                borderRadius: "10px",
-                padding: "20px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
-              }}
-            >
+                key={item.historyId}
+                className="history-booking-card"
+              >
               <img
                 src={`http://localhost:8080/uploads/${item.vehicleImage}`}
                 alt={item.vehicleModel}
-                style={{
-                  width: "100%",
-                  height: "170px",
-                  objectFit: "contain",
-                  borderRadius: "8px",
-                  marginBottom: "15px"
-                }}
+                className="history-booking-image"
               />
 
               <h3>{item.vehicleModel}</h3>
 
-              <p>
-                <strong>From:</strong> {item.startDate}
-              </p>
+              <div className="history-details">
 
-              <p>
-                <strong>To:</strong> {item.endDate}
-              </p>
+                <p>
+                  <strong>From:</strong> {item.startDate}
+                </p>
 
-              <p>
-                <strong>Total Amount:</strong> Rs. {item.total}
-              </p>
+                <p>
+                  <strong>To:</strong> {item.endDate}
+                </p>
+
+                <p className="history-amount">
+                  Total Amount: Rs. {item.total}
+                </p>
+
+              </div>
 
               <p>
                 <strong>Status: </strong>

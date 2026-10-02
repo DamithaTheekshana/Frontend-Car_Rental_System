@@ -93,6 +93,45 @@ const [vehicleImage, setVehicleImage] = useState(null);
   }
 };
 
+const handleDeleteVehicle = async (vehicleId) => {
+
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this vehicle?"
+  );
+
+  if (!confirmDelete) {
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      `http://localhost:8080/vehicle/deleteVehicle/${vehicleId}`,
+      {
+        method: "DELETE"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to delete vehicle");
+    }
+
+    alert("Vehicle deleted successfully!");
+
+    setVehicles((prevVehicles) =>
+      prevVehicles.filter(
+        (vehicle) => vehicle.vehicleId !== vehicleId
+      )
+    );
+
+  } catch (error) {
+
+    console.error("Delete Vehicle Error:", error);
+    alert("Failed to delete vehicle!");
+
+  }
+};
+
   return (
     <>
       <AdminNavbar />
@@ -223,6 +262,10 @@ const [vehicleImage, setVehicleImage] = useState(null);
               <p>
                 <strong>Status:</strong> {vehicle.status}
               </p>
+
+              <button onClick={() => handleDeleteVehicle(vehicle.vehicleId)}style={{width: "100%",marginTop: "15px",padding: "10px",backgroundColor: "#dc3545",color: "white",border: "none",borderRadius: "7px",cursor: "pointer",fontWeight: "600"}}>
+                Delete Vehicle
+              </button>
 
             </div>
 

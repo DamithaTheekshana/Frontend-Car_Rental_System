@@ -16,7 +16,7 @@ function AdminNavbar() {
           {/* Right side - Login & Register */}
           <div style={{ display: "flex", gap: "20px" }}>
             <Link to={"/"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-home-page-30 (1).png" alt="Logo" width="50"/>Home</Link>
-            <Link to={"/"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-add-male-user-group-50.png" alt="Logo" width="45"/>Add Admin</Link>
+            <Link to={"/admin/add-admin"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-add-male-user-group-50.png" alt="Logo" width="45"/>Add Admin</Link>
             <Link to={"/admin/vehicles"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-vehicle-50.png" alt="Logo" width="48"/>Manage Vehicles</Link>
             <Link to={"/"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-booking-48.png" alt="Logo" width="48"/>Bookings</Link>
             <Link to={"/admin/customers"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-customers-50.png" alt="Logo" width="42"/>Customers</Link>

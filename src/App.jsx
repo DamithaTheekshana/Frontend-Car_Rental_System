@@ -10,6 +10,7 @@ import AdminHomePage from './Pages/AdminHomePage'
 import MyBookingsPage from "./Pages/MyBookingsPage";
 import ManageVehiclesPage from "./Pages/ManageVehiclesPage";
 import CustomersPage from "./Pages/CustomersPage";
+import AddAdminPage from "./Pages/AddAdminPage";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/mybookings" element={<MyBookingsPage />} />
         <Route path="/admin/vehicles" element={<ManageVehiclesPage />}/>
         <Route path="/admin/customers"element={<CustomersPage />}/>
+        <Route path="/admin/add-admin"element={<AddAdminPage />}/>
       </Routes>
     </>
   

@@ -9,6 +9,7 @@ import RegisterPage from './Pages/RegisterPage'
 import AdminHomePage from './Pages/AdminHomePage'
 import MyBookingsPage from "./Pages/MyBookingsPage";
 import ManageVehiclesPage from "./Pages/ManageVehiclesPage";
+import CustomersPage from "./Pages/CustomersPage";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/register" element={<RegisterPage/>}></Route>
         <Route path="/mybookings" element={<MyBookingsPage />} />
         <Route path="/admin/vehicles" element={<ManageVehiclesPage />}/>
+        <Route path="/admin/customers"element={<CustomersPage />}/>
       </Routes>
     </>
   

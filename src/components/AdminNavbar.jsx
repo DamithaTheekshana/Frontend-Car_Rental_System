@@ -2,6 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 function AdminNavbar() {
+
+  const handleLogout = () => {
+  localStorage.removeItem("user");
+  };
+
   return (
     <>
     <nav className="navbar bg-dark bg-opacity-75 px-4 py-0">
@@ -20,8 +25,8 @@ function AdminNavbar() {
             <Link to={"/admin/vehicles"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-vehicle-50.png" alt="Logo" width="48"/>Manage Vehicles</Link>
             <Link to={"/admin/bookings"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-booking-48.png" alt="Logo" width="48"/>Bookings</Link>
             <Link to={"/admin/customers"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-customers-50.png" alt="Logo" width="42"/>Customers</Link>
-            <Link to={"/"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-report-50.png" alt="Logo" width="42"/>Repots</Link>
-            <Link to={"/loginpage"}style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-login-50.png" alt="Logo" width="48"/>Log out</Link>
+            <Link to={"/admin/reports"} style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-report-50.png" alt="Logo" width="42"/>Repots</Link>
+            <Link to={"/loginpage"} onClick={handleLogout}style={{color: "white",textDecoration: "none",fontWeight: "500", marginTop: "5px", marginBottom:"5px"}}><img src="/img/icons8-login-50.png" alt="Logo" width="48"/>Log out</Link>
           </div>
         </div>
       </nav>

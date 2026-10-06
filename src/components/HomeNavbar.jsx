@@ -1,91 +1,188 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import "./HomeNavbar.css";
 
 function HomeNavbar() {
 
   const user = JSON.parse(localStorage.getItem("user"));
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    window.location.href = "/loginpage";
   };
 
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <>
-      <nav className="navbar bg-dark bg-opacity-75 px-4 py-0">
-        <div style={{display: "flex",justifyContent: "space-between",alignItems: "center", width: "100%"}}>
+    <nav className="home-navbar">
 
-          {/* Left side - Logo + Name */}
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }} >
-            <img src="\img\The trip key.png" alt="Logo" width="50"/>
-            <h2 style={{ color: "white", margin: 0, fontWeight: "1000"}}>THE TRIP KEY</h2>
-          </div>
+      {/* LEFT - BRAND */}
+      <Link to="/" className="navbar-brand-section">
 
-          {/* Right side */}
-          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+        <img
+          src="/img/The trip key.png"
+          alt="The Trip Key"
+          className="navbar-logo"
+        />
 
-            <Link to={"/"} style={{color: "white",textDecoration: "none",fontWeight: "500",marginTop: "5px",marginBottom: "5px"}}>
-              <img src="/img/icons8-home-page-30 (1).png" alt="Home"width="50"/>
-              Home
+        <span className="navbar-brand-name">
+          THE TRIP KEY
+        </span>
+
+      </Link>
+
+
+      {/* RIGHT SIDE */}
+      <div className="navbar-right">
+
+        {/* HOME */}
+        <Link
+          to="/"
+          className={`navbar-menu-link ${
+            isActive("/") ? "navbar-active" : ""
+          }`}
+        >
+          <img
+            src="/img/icons8-home-page-30 (1).png"
+            alt="Home"
+            className="navbar-menu-icon"
+          />
+
+          <span>Home</span>
+        </Link>
+
+
+        {user ? (
+          <>
+
+            {/* MY BOOKINGS */}
+            <Link
+              to="/mybookings"
+              className={`navbar-menu-link ${
+                isActive("/mybookings")
+                  ? "navbar-active"
+                  : ""
+              }`}
+            >
+              <img
+                src="/img/icons8-booking-48.png"
+                alt="My Bookings"
+                className="navbar-menu-icon"
+              />
+
+              <span>My Bookings</span>
             </Link>
 
-              {user ? (
-              <>
 
-                <Link to="/mybookings"style={{color: "white",textDecoration: "none",fontWeight: "600"}}><img src='/img/icons8-booking-48.png'></img>
-                    My Bookings
-                </Link>
+            {/* BOOKING HISTORY */}
+            <Link
+              to="/booking-history"
+              className={`navbar-menu-link ${
+                isActive("/booking-history")
+                  ? "navbar-active"
+                  : ""
+              }`}
+            >
+              <img
+                src="/img/icons8-report-50.png"
+                alt="Booking History"
+                className="navbar-menu-icon"
+              />
 
-                <Link to="/booking-history"style={{color: "white",textDecoration: "none",fontWeight: "600"}}><img src='/img/icons8-report-50.png'></img>
-                  Booking History
-                </Link>
+              <span>Booking History</span>
+            </Link>
 
-                <Link to="/payment-history"style={{color: "white",textDecoration: "none",fontWeight: "600" }}><img src="/img/icons8-report-50.png"alt="Payment History"width="48"/>
-                  Payment History
-                </Link>
-                
-                  <span style={{ color: "white", fontWeight: "600" }}>
-                    Welcome, {user.fullName}
-                  </span>
 
-                  <Link
-                    to={"/loginpage"}
-                    onClick={handleLogout}
-                    style={{
-                      color: "white",
-                      textDecoration: "none",
-                      fontWeight: "500",
-                      marginTop: "5px",
-                      marginBottom: "5px"
-                    }}
-                  >
-                    <img
-                      src="/img/icons8-login-50.png"
-                      alt="Logout"
-                      width="48"
-                    />
-                    Log out
-                  </Link>
-                </>
-              ) : (
-              <>
-                <Link to={"/loginpage"}style={{color: "white",textDecoration: "none",fontWeight: "500",marginTop: "5px",marginBottom: "5px" }}>
-                  <img src="/img/icons8-login-50.png"alt="Login"width="50"/>
-                  Login
-                </Link>
+            {/* PAYMENT HISTORY */}
+            <Link
+              to="/payment-history"
+              className={`navbar-menu-link ${
+                isActive("/payment-history")
+                  ? "navbar-active"
+                  : ""
+              }`}
+            >
+              <img
+                src="/img/icons8-report-50.png"
+                alt="Payment History"
+                className="navbar-menu-icon"
+              />
 
-                <Link to={"/register"}style={{color: "white",textDecoration: "none",fontWeight: "500",marginTop: "5px",marginBottom: "5px"}}>
-                  <img src="/img/icons8-register-64.png" alt="Register" width="50" />
-                  Register
-                </Link>
-              </>
-            )}
+              <span>Payment History</span>
+            </Link>
 
-</div>
-        </div>
-      </nav>
-    </>
-  )
+
+            {/* USER */}
+            <div className="navbar-user">
+
+              <div className="navbar-user-avatar">
+                {user.fullName
+                  ? user.fullName.charAt(0).toUpperCase()
+                  : "U"}
+              </div>
+
+              <span>
+                Welcome, {user.fullName}
+              </span>
+
+            </div>
+
+
+            {/* LOGOUT */}
+            <Link
+              to="/loginpage"
+              onClick={handleLogout}
+              className="navbar-logout"
+            >
+              <img
+                src="/img/icons8-login-50.png"
+                alt="Logout"
+                className="navbar-menu-icon"
+              />
+
+              <span>Log out</span>
+            </Link>
+
+          </>
+        ) : (
+          <>
+
+            {/* LOGIN */}
+            <Link
+              to="/loginpage"
+              className="navbar-menu-link"
+            >
+              <img
+                src="/img/icons8-login-50.png"
+                alt="Login"
+                className="navbar-menu-icon"
+              />
+
+              <span>Login</span>
+            </Link>
+
+
+            {/* REGISTER */}
+            <Link
+              to="/register"
+              className="navbar-menu-link"
+            >
+              <img
+                src="/img/icons8-register-64.png"
+                alt="Register"
+                className="navbar-menu-icon"
+              />
+
+              <span>Register</span>
+            </Link>
+
+          </>
+        )}
+
+      </div>
+
+    </nav>
+  );
 }
 
-export default HomeNavbar
+export default HomeNavbar;

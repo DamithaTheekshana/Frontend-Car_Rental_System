@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import HomeNavbar from '../components/HomeNavbar'
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import HomeNavbar from "../components/HomeNavbar";
+import { Link, useNavigate } from "react-router-dom";
+import "./RegisterPage.css";
 
 function RegisterPage() {
 
@@ -9,108 +10,465 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [nic, setNic] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [registering, setRegistering] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
 
-    const handleRegister = async (e) => {
+
+  // =====================================
+  // REGISTER
+  // =====================================
+
+  const handleRegister = async (e) => {
+
     e.preventDefault();
 
+    setErrorMessage("");
+
     const userData = {
-        fullName,
-        email,
-        password,
-        phoneNumber,
-        nic,
-        role: "CUSTOMER"
+      fullName,
+      email,
+      password,
+      phoneNumber,
+      nic,
+      role: "CUSTOMER"
     };
 
     console.log("Register Data:", userData);
 
     try {
-        const response = await fetch("http://localhost:8080/user/userregister", {
-        method: "POST",
-        headers: {
+
+      setRegistering(true);
+
+      const response = await fetch(
+        "http://localhost:8080/user/userregister",
+        {
+          method: "POST",
+          headers: {
             "Content-Type": "application/json"
-        },
-        body: JSON.stringify(userData)
-        });
-
-        if (!response.ok) {
-        throw new Error("Registration failed");
+          },
+          body: JSON.stringify(userData)
         }
+      );
 
-        const data = await response.json();
-        console.log("Registration Success:", data);
+      if (!response.ok) {
+        throw new Error("Registration failed");
+      }
 
-        alert("Registration successful!");
-        navigate("/loginpage");
+      const data = await response.json();
+
+      console.log("Registration Success:", data);
+
+      alert("Registration successful!");
+
+      navigate("/loginpage");
 
     } catch (error) {
-        console.error("Registration Error:", error);
+
+      console.error("Registration Error:", error);
+
+      setErrorMessage(
+        "Registration failed. Please check your details and try again."
+      );
+
+    } finally {
+
+      setRegistering(false);
+
     }
-    };
+  };
+
 
   return (
     <>
 
-        <HomeNavbar/>
-        
-        <div className="d-flex justify-content-center align-items-center"style={{ minHeight: "100vh", backgroundColor: "#f0f0f0" }}>
+      <HomeNavbar />
 
-            <div style={{backgroundColor: "#fff",padding: "30px",borderRadius: "10px",width: "400px",boxShadow: "0px 0px 15px rgba(0,0,0,0.2)",}}>
-                {/* Header */}
-                <div style={{ backgroundColor: "#ffa500",padding: "15px",borderRadius: "8px",textAlign: "center",color: "white",marginBottom: "20px",}}>
-                    <img src="/img/icons8-car-100.png" alt="Car Icon" style={{ width: "40px", marginBottom: "5px" }}/>
-                    <h3 style={{ margin: 0 }}>Welcome THE TRIP KEY</h3>
-                    <small>Premier Car Rental Services in Sri Lanka</small>
+
+      <main className="register-page">
+
+        <div className="register-container">
+
+
+          {/* ================================= */}
+          {/* LEFT SIDE */}
+          {/* ================================= */}
+
+          <div className="register-welcome-section">
+
+            <div className="register-welcome-overlay"></div>
+
+
+            <div className="register-welcome-content">
+
+              <img
+                src="/img/The trip key.png"
+                alt="The Trip Key"
+                className="register-brand-logo"
+              />
+
+
+              <span className="register-small-title">
+                THE TRIP KEY
+              </span>
+
+
+              <h1>
+                Start Your
+                <span> Journey Today.</span>
+              </h1>
+
+
+              <p>
+                Create your account and discover a simple,
+                reliable and comfortable way to rent vehicles
+                for your journey across Sri Lanka.
+              </p>
+
+
+              <div className="register-feature-list">
+
+                <div className="register-feature-item">
+
+                  <span>✓</span>
+
+                  <p>
+                    Explore our modern vehicle fleet
+                  </p>
+
                 </div>
 
-                {/* Form */}
-                <form onSubmit={handleRegister}>
-                    <div className="mb-3">
-                    <label className="form-label">Name</label>
-                    <input type="text" className="form-control" placeholder="Enter your name" value={fullName} onChange={(e) => setFullName(e.target.value)}/>
-                    </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Email address</label>
-                        <input type="email" className="form-control" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                    </div>
+                <div className="register-feature-item">
 
-                    <div className="mb-3">
-                        <label className="form-label">Password</label>
-                        <input type="password" className="form-control" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                    </div>
+                  <span>✓</span>
 
-                    <div className="mb-3">
-                        <label className="form-label">Phone</label>
-                        <input type="tel" className="form-control" placeholder="Enter your phone number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/>
-                    </div>
+                  <p>
+                    Book vehicles quickly and easily
+                  </p>
 
-                    <div className="mb-3">
-                        <label className="form-label">ID Number</label>
-                        <input type="text" className="form-control" placeholder="Enter your ID number" value={nic} onChange={(e) => setNic(e.target.value)}/>
-                    </div>
+                </div>
 
-                    <button type="submit"className="btn"style={{backgroundColor: "#3b6a25",color: "white",width: "100%",marginBottom: "15px"}}>Sign-up</button>
 
-                    {/* Social login */}
-                    <div className="d-flex justify-content-between gap-2">
+                <div className="register-feature-item">
 
-                        <button type="button"className="btn btn-light w-50"style={{ border: "1px solid #ccc" }}>
-                        <img src="/img/icons8-google-48.png"alt="Google"style={{ width: "20px", marginRight: "5px" }}/>
-                        Sign in with Google
-                        </button>
+                  <span>✓</span>
 
-                        <button type="button"className="btn btn-light w-50"style={{ border: "1px solid #ccc" }}>
-                        <img src="/img/icons8-apple-48.png"alt="Apple"style={{ width: "20px", marginRight: "5px" }}/>
-                        Sign in with Apple
-                        </button>
-                    </div>
-                </form>
+                  <p>
+                    Manage bookings and payments
+                  </p>
+
+                </div>
+
+              </div>
+
             </div>
+
+          </div>
+
+
+          {/* ================================= */}
+          {/* RIGHT SIDE */}
+          {/* ================================= */}
+
+          <div className="register-form-section">
+
+            <div className="register-form-container">
+
+
+              {/* HEADER */}
+
+              <div className="register-form-header">
+
+                <div className="register-form-icon">
+
+                  <img
+                    src="/img/icons8-car-100.png"
+                    alt="Car"
+                  />
+
+                </div>
+
+
+                <span>
+                  CREATE ACCOUNT
+                </span>
+
+
+                <h2>
+                  Join The Trip Key
+                </h2>
+
+
+                <p>
+                  Enter your details to create your customer account.
+                </p>
+
+              </div>
+
+
+              {/* ERROR */}
+
+              {errorMessage && (
+
+                <div className="register-error-message">
+
+                  <span>!</span>
+
+                  {errorMessage}
+
+                </div>
+
+              )}
+
+
+              {/* ================================= */}
+              {/* REGISTER FORM */}
+              {/* ================================= */}
+
+              <form
+                className="register-form"
+                onSubmit={handleRegister}
+              >
+
+
+                {/* FULL NAME */}
+
+                <div className="register-form-group">
+
+                  <label htmlFor="fullName">
+                    Full Name
+                  </label>
+
+                  <div className="register-input-wrapper">
+
+                    <span className="register-input-icon">
+                      ●
+                    </span>
+
+                    <input
+                      id="fullName"
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={fullName}
+                      onChange={(e) =>
+                        setFullName(e.target.value)
+                      }
+                      required
+                    />
+
+                  </div>
+
+                </div>
+
+
+                {/* EMAIL */}
+
+                <div className="register-form-group">
+
+                  <label htmlFor="registerEmail">
+                    Email Address
+                  </label>
+
+                  <div className="register-input-wrapper">
+
+                    <span className="register-input-icon">
+                      ✉
+                    </span>
+
+                    <input
+                      id="registerEmail"
+                      type="email"
+                      placeholder="Enter your email address"
+                      value={email}
+                      onChange={(e) =>
+                        setEmail(e.target.value)
+                      }
+                      required
+                    />
+
+                  </div>
+
+                </div>
+
+
+                {/* PASSWORD */}
+
+                <div className="register-form-group">
+
+                  <label htmlFor="registerPassword">
+                    Password
+                  </label>
+
+                  <div className="register-input-wrapper">
+
+                    <span className="register-input-icon">
+                      ●
+                    </span>
+
+                    <input
+                      id="registerPassword"
+                      type={
+                        showPassword
+                          ? "text"
+                          : "password"
+                      }
+                      placeholder="Create your password"
+                      value={password}
+                      onChange={(e) =>
+                        setPassword(e.target.value)
+                      }
+                      required
+                    />
+
+
+                    <button
+                      type="button"
+                      className="register-show-password"
+                      onClick={() =>
+                        setShowPassword(!showPassword)
+                      }
+                    >
+                      {showPassword
+                        ? "Hide"
+                        : "Show"
+                      }
+                    </button>
+
+                  </div>
+
+                </div>
+
+
+                {/* PHONE + NIC ROW */}
+
+                <div className="register-form-row">
+
+
+                  {/* PHONE */}
+
+                  <div className="register-form-group">
+
+                    <label htmlFor="phoneNumber">
+                      Phone Number
+                    </label>
+
+                    <div className="register-input-wrapper">
+
+                      <span className="register-input-icon">
+                        ☎
+                      </span>
+
+                      <input
+                        id="phoneNumber"
+                        type="tel"
+                        placeholder="07X XXX XXXX"
+                        value={phoneNumber}
+                        onChange={(e) =>
+                          setPhoneNumber(e.target.value)
+                        }
+                        required
+                      />
+
+                    </div>
+
+                  </div>
+
+
+                  {/* NIC */}
+
+                  <div className="register-form-group">
+
+                    <label htmlFor="nic">
+                      NIC Number
+                    </label>
+
+                    <div className="register-input-wrapper">
+
+                      <span className="register-input-icon">
+                        #
+                      </span>
+
+                      <input
+                        id="nic"
+                        type="text"
+                        placeholder="Enter NIC"
+                        value={nic}
+                        onChange={(e) =>
+                          setNic(e.target.value)
+                        }
+                        required
+                      />
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                {/* REGISTER BUTTON */}
+
+                <button
+                  type="submit"
+                  className="main-register-button"
+                  disabled={registering}
+                >
+
+                  {registering
+                    ? "Creating Account..."
+                    : "Create Account"
+                  }
+
+                  {!registering && (
+                    <span>→</span>
+                  )}
+
+                </button>
+
+              </form>
+
+
+              {/* LOGIN LINK */}
+
+              <div className="register-login-section">
+
+                <span>
+                  Already have an account?
+                </span>
+
+                <Link to="/loginpage">
+                  Sign In
+                </Link>
+
+              </div>
+
+
+              {/* SECURITY */}
+
+              <div className="register-security-message">
+
+                <span>✓</span>
+
+                <p>
+                  Your account information is securely protected
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
+
+      </main>
+
     </>
-  )
+  );
 }
 
-export default RegisterPage
+export default RegisterPage;

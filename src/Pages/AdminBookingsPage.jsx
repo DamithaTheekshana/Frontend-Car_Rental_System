@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
+import "./AdminBookingsPage.css";
 
 function AdminBookingsPage() {
 
@@ -21,184 +22,186 @@ function AdminBookingsPage() {
       }
 
       const data = await response.json();
+
+      console.log("Admin All Bookings:", data);
+
       setBookings(data);
 
     } catch (error) {
+
       console.error("Booking Fetch Error:", error);
+
     }
   };
+
 
   return (
     <>
       <AdminNavbar />
 
-      <div
-        style={{
-          padding: "40px",
-          minHeight: "100vh",
-          backgroundColor: "#f5f6f8"
-        }}
-      >
+      <div className="admin-all-bookings-page">
 
-        <h2>Booking Management</h2>
+        {/* Page Title */}
+        <h2 className="admin-all-bookings-title">
+          Booking Management
+        </h2>
 
-        <p style={{ marginBottom: "25px" }}>
+
+        {/* Total Bookings */}
+        <p className="admin-all-bookings-count">
           Total Bookings: <strong>{bookings.length}</strong>
         </p>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: "25px"
-          }}
-        >
 
-          {bookings.map((booking) => (
+        {/* No Bookings */}
+        {bookings.length === 0 ? (
 
-            <div
-              key={booking.bookingId}
-              style={{
-                backgroundColor: "white",
-                borderRadius: "12px",
-                overflow: "hidden",
-                boxShadow: "0 3px 12px rgba(0,0,0,0.08)"
-              }}
-            >
-
-              <div
-                style={{
-                    width: "100%",
-                    height: "220px",
-                    backgroundColor: "#f8f9fa",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "10px"
-                }}
-                >
-                <img
-                    src={`http://localhost:8080/uploads/${booking.vehicleImage}`}
-                    alt={booking.vehicleModel}
-                    style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain"
-                    }}
-                />
-                </div>
-
-              <div style={{ padding: "20px" }}>
-
-                <h3>{booking.vehicleModel}</h3>
-
-                <p>
-                  <strong>Booking ID:</strong>{" "}
-                  {booking.bookingId}
-                </p>
-
-                <p>
-                  <strong>Customer:</strong>{" "}
-                  {booking.customerName}
-                </p>
-
-                <p>
-                  <strong>From:</strong>{" "}
-                  {booking.startDate}
-                </p>
-
-                <p>
-                  <strong>To:</strong>{" "}
-                  {booking.endDate}
-                </p>
-
-                <p>
-                  <strong>Total Days:</strong>{" "}
-                  {booking.totalDays}
-                </p>
-
-                <p>
-                  <strong>Daily Rate:</strong> Rs.{" "}
-                  {booking.dailyRate}
-                </p>
-
-                <p>
-                  <strong>Total Amount:</strong> Rs.{" "}
-                  {booking.totalAmount}
-                </p>
-
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        gap: "10px",
-                        marginTop: "18px"
-                    }}
-                    >
-                    <span
-                        style={{
-                        padding: "6px 12px",
-                        borderRadius: "20px",
-                        fontSize: "13px",
-                        fontWeight: "600",
-
-                        backgroundColor:
-                            booking.status === "PENDING"
-                            ? "#fff3cd"
-                            : booking.status === "APPROVED"
-                            ? "#cfe2ff"
-                            : booking.status === "SUCCESS"
-                            ? "#d1e7dd"
-                            : "#e2e3e5",
-
-                        color:
-                            booking.status === "PENDING"
-                            ? "#664d03"
-                            : booking.status === "APPROVED"
-                            ? "#084298"
-                            : booking.status === "SUCCESS"
-                            ? "#0f5132"
-                            : "#41464b"
-                        }}
-                    >
-                        {booking.status}
-                    </span>
-
-                    <span
-                        style={{
-                        padding: "6px 12px",
-                        borderRadius: "20px",
-                        fontSize: "13px",
-                        fontWeight: "600",
-
-                        backgroundColor:
-                            booking.paymentStatus === "PAID"
-                            ? "#d1e7dd"
-                            : "#f8d7da",
-
-                        color:
-                            booking.paymentStatus === "PAID"
-                            ? "#0f5132"
-                            : "#842029"
-                        }}
-                    >
-                        {booking.paymentStatus}
-                    </span>
-                    </div>
-
-              </div>
-            </div>
-
-          ))}
-
-        </div>
-
-        {bookings.length === 0 && (
-          <p style={{ marginTop: "30px" }}>
+          <div className="admin-all-bookings-empty">
             No bookings available.
-          </p>
+          </div>
+
+        ) : (
+
+          /* Booking Table */
+          <div className="admin-all-bookings-table-wrapper">
+
+            <table className="admin-all-bookings-table">
+
+              <thead>
+
+                <tr>
+                  <th>Vehicle</th>
+                  <th>Customer</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Total Days</th>
+                  <th>Daily Rate</th>
+                  <th>Total Amount</th>
+                  <th>Booking Status</th>
+                  <th>Payment Status</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {bookings.map((booking) => (
+
+                  <tr key={booking.bookingId}>
+
+
+                    {/* Vehicle Image + Model */}
+
+                    <td>
+
+                      <div className="admin-all-bookings-vehicle">
+
+                        <img
+                          src={`http://localhost:8080/uploads/${booking.vehicleImage}`}
+                          alt={booking.vehicleModel}
+                          className="admin-all-bookings-vehicle-image"
+                        />
+
+                        <span className="admin-all-bookings-vehicle-model">
+                          {booking.vehicleModel}
+                        </span>
+
+                      </div>
+
+                    </td>
+
+
+                    {/* Customer */}
+
+                    <td>
+                      {booking.customerName}
+                    </td>
+
+
+                    {/* Start Date */}
+
+                    <td>
+                      {booking.startDate}
+                    </td>
+
+
+                    {/* End Date */}
+
+                    <td>
+                      {booking.endDate}
+                    </td>
+
+
+                    {/* Total Days */}
+
+                    <td>
+                      {booking.totalDays}
+                    </td>
+
+
+                    {/* Daily Rate */}
+
+                    <td className="admin-all-bookings-rate">
+                      Rs. {booking.dailyRate}
+                    </td>
+
+
+                    {/* Total Amount */}
+
+                    <td className="admin-all-bookings-total">
+                      Rs. {booking.totalAmount}
+                    </td>
+
+
+                    {/* Booking Status */}
+
+                    <td>
+
+                      <span
+                        className={`admin-all-bookings-status ${
+                          booking.status === "PENDING"
+                            ? "booking-status-pending"
+                            : booking.status === "APPROVED"
+                            ? "booking-status-approved"
+                            : booking.status === "SUCCESS"
+                            ? "booking-status-success"
+                            : "booking-status-default"
+                        }`}
+                      >
+                        {booking.status}
+                      </span>
+
+                    </td>
+
+
+                    {/* Payment Status */}
+
+                    <td>
+
+                      <span
+                        className={`admin-all-bookings-payment ${
+                          booking.paymentStatus === "PAID"
+                            ? "booking-payment-paid"
+                            : "booking-payment-unpaid"
+                        }`}
+                      >
+                        {booking.paymentStatus}
+                      </span>
+
+                    </td>
+
+
+                  </tr>
+
+                ))}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
         )}
 
       </div>

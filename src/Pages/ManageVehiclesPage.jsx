@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
+import "./ManageVehiclesPage.css";
 
 function ManageVehiclesPage() {
 
@@ -7,17 +8,23 @@ function ManageVehiclesPage() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingVehicle, setEditingVehicle] = useState(null);
   const [updateVehicleImage, setUpdateVehicleImage] = useState(null);
-  const [newVehicle, setNewVehicle] = useState({
-  model: "",
-  regNo: "",
-  brand: "",
-  type: "",
-  fuelType: "",
-  seat: "",
-  dailyRate: ""
-});
 
-const [vehicleImage, setVehicleImage] = useState(null);
+  const [newVehicle, setNewVehicle] = useState({
+    model: "",
+    regNo: "",
+    brand: "",
+    type: "",
+    fuelType: "",
+    seat: "",
+    dailyRate: ""
+  });
+
+  const [vehicleImage, setVehicleImage] = useState(null);
+
+
+  // ==========================================
+  // GET ALL VEHICLES
+  // ==========================================
 
   useEffect(() => {
 
@@ -40,166 +47,187 @@ const [vehicleImage, setVehicleImage] = useState(null);
 
   }, []);
 
+
+  // ==========================================
+  // ADD VEHICLE
+  // ==========================================
+
   const handleAddVehicle = async () => {
 
-  try {
+    try {
 
-    if (!vehicleImage) {
-      alert("Please select a vehicle image!");
-      return;
-    }
-
-    const vehicleData = {
-      model: newVehicle.model,
-      regNo: newVehicle.regNo,
-      brand: newVehicle.brand,
-      type: newVehicle.type,
-      fuelType: newVehicle.fuelType,
-      seat: Number(newVehicle.seat),
-      dailyRate: Number(newVehicle.dailyRate)
-    };
-
-    const formData = new FormData();
-
-    const vehicleBlob = new Blob(
-      [JSON.stringify(vehicleData)],
-      {
-        type: "application/json"
+      if (!vehicleImage) {
+        alert("Please select a vehicle image!");
+        return;
       }
-    );
 
-    formData.append("vehicle", vehicleBlob);
-    formData.append("image", vehicleImage);
+      const vehicleData = {
+        model: newVehicle.model,
+        regNo: newVehicle.regNo,
+        brand: newVehicle.brand,
+        type: newVehicle.type,
+        fuelType: newVehicle.fuelType,
+        seat: Number(newVehicle.seat),
+        dailyRate: Number(newVehicle.dailyRate)
+      };
 
-    const response = await fetch(
-      "http://localhost:8080/vehicle/addVehicle",
-      {
-        method: "POST",
-        body: formData
+      const formData = new FormData();
+
+      const vehicleBlob = new Blob(
+        [JSON.stringify(vehicleData)],
+        {
+          type: "application/json"
+        }
+      );
+
+      formData.append("vehicle", vehicleBlob);
+      formData.append("image", vehicleImage);
+
+      const response = await fetch(
+        "http://localhost:8080/vehicle/addVehicle",
+        {
+          method: "POST",
+          body: formData
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add vehicle");
       }
-    );
 
-    if (!response.ok) {
-      throw new Error("Failed to add vehicle");
-    }
+      alert("Vehicle added successfully!");
 
-    alert("Vehicle added successfully!");
-
-    window.location.reload();
-
-  } catch (error) {
-
-    console.error("Add Vehicle Error:", error);
-    alert("Failed to add vehicle!");
-
-  }
-};
-
-const handleDeleteVehicle = async (vehicleId) => {
-
-  const confirmDelete = window.confirm(
-    "Are you sure you want to delete this vehicle?"
-  );
-
-  if (!confirmDelete) {
-    return;
-  }
-
-  try {
-
-    const response = await fetch(
-      `http://localhost:8080/vehicle/deleteVehicle/${vehicleId}`,
-      {
-        method: "DELETE"
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to delete vehicle");
-    }
-
-    alert("Vehicle deleted successfully!");
-
-    setVehicles((prevVehicles) =>
-      prevVehicles.filter(
-        (vehicle) => vehicle.vehicleId !== vehicleId
-      )
-    );
-
-  } catch (error) {
-
-    console.error("Delete Vehicle Error:", error);
-    alert("Failed to delete vehicle!");
-
-  }
-};
-
-const handleUpdateVehicle = async () => {
-  try {
-    const vehicleData = {
-      vehicleId: editingVehicle.vehicleId,
-      imagePath: editingVehicle.imagePath,
-      model: editingVehicle.model,
-      regNo: editingVehicle.regNo,
-      brand: editingVehicle.brand,
-      type: editingVehicle.type,
-      fuelType: editingVehicle.fuelType,
-      seat: Number(editingVehicle.seat),
-      dailyRate: Number(editingVehicle.dailyRate)
-    };
-
-    const formData = new FormData();
-
-    const vehicleBlob = new Blob(
-      [JSON.stringify(vehicleData)],
-      { type: "application/json" }
-    );
-
-    formData.append("vehicle", vehicleBlob);
-
-    // New image selected නම් විතරක් image එක යවනවා
-    if (updateVehicleImage) {
-      formData.append("image", updateVehicleImage);
-    }
-
-    const response = await fetch(
-      "http://localhost:8080/vehicle/updateVehicle",
-      {
-        method: "PUT",
-        body: formData
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to update vehicle");
-    }
-
-    alert("Vehicle updated successfully!");
-
-    // Backend එකෙන් අලුත් imagePath return නොකරන නිසා
-    // new image එකක් තිබ්බොත් page reload කරමු
-    if (updateVehicleImage) {
       window.location.reload();
+
+    } catch (error) {
+
+      console.error("Add Vehicle Error:", error);
+      alert("Failed to add vehicle!");
+
+    }
+  };
+
+
+  // ==========================================
+  // DELETE VEHICLE
+  // ==========================================
+
+  const handleDeleteVehicle = async (vehicleId) => {
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this vehicle?"
+    );
+
+    if (!confirmDelete) {
       return;
     }
 
-    // Image එක වෙනස් නොකළොත් reload නැතුව card update කරනවා
-    setVehicles((prevVehicles) =>
-      prevVehicles.map((vehicle) =>
-        vehicle.vehicleId === editingVehicle.vehicleId
-          ? { ...vehicle, ...vehicleData }
-          : vehicle
-      )
-    );
+    try {
 
-    setEditingVehicle(null);
-    setUpdateVehicleImage(null);
+      const response = await fetch(
+        `http://localhost:8080/vehicle/deleteVehicle/${vehicleId}`,
+        {
+          method: "DELETE"
+        }
+      );
 
-  } catch (error) {
-    console.error("Update Vehicle Error:", error);
-    alert("Failed to update vehicle!");
-  }
-};
+      if (!response.ok) {
+        throw new Error("Failed to delete vehicle");
+      }
+
+      alert("Vehicle deleted successfully!");
+
+      setVehicles((prevVehicles) =>
+        prevVehicles.filter(
+          (vehicle) => vehicle.vehicleId !== vehicleId
+        )
+      );
+
+    } catch (error) {
+
+      console.error("Delete Vehicle Error:", error);
+      alert("Failed to delete vehicle!");
+
+    }
+  };
+
+
+  // ==========================================
+  // UPDATE VEHICLE
+  // ==========================================
+
+  const handleUpdateVehicle = async () => {
+
+    try {
+
+      const vehicleData = {
+        vehicleId: editingVehicle.vehicleId,
+        imagePath: editingVehicle.imagePath,
+        model: editingVehicle.model,
+        regNo: editingVehicle.regNo,
+        brand: editingVehicle.brand,
+        type: editingVehicle.type,
+        fuelType: editingVehicle.fuelType,
+        seat: Number(editingVehicle.seat),
+        dailyRate: Number(editingVehicle.dailyRate)
+      };
+
+      const formData = new FormData();
+
+      const vehicleBlob = new Blob(
+        [JSON.stringify(vehicleData)],
+        {
+          type: "application/json"
+        }
+      );
+
+      formData.append("vehicle", vehicleBlob);
+
+      // New image selected nam witharak image eka yawanne
+      if (updateVehicleImage) {
+        formData.append("image", updateVehicleImage);
+      }
+
+      const response = await fetch(
+        "http://localhost:8080/vehicle/updateVehicle",
+        {
+          method: "PUT",
+          body: formData
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update vehicle");
+      }
+
+      alert("Vehicle updated successfully!");
+
+      // New image ekak update kala nam page reload karanawa
+      if (updateVehicleImage) {
+        window.location.reload();
+        return;
+      }
+
+      // Image eka change nokala nam reload nathuwa table eka update karanawa
+      setVehicles((prevVehicles) =>
+        prevVehicles.map((vehicle) =>
+          vehicle.vehicleId === editingVehicle.vehicleId
+            ? { ...vehicle, ...vehicleData }
+            : vehicle
+        )
+      );
+
+      setEditingVehicle(null);
+      setUpdateVehicleImage(null);
+
+    } catch (error) {
+
+      console.error("Update Vehicle Error:", error);
+      alert("Failed to update vehicle!");
+
+    }
+  };
+
 
   return (
     <>
@@ -209,75 +237,208 @@ const handleUpdateVehicle = async () => {
 
         <h2>Manage Vehicles</h2>
 
-        <div style={{ marginTop: "20px", marginBottom: "30px" }}>
 
-            <button
-                onClick={() => setShowAddForm(!showAddForm)}
-                style={{padding: "10px 20px",backgroundColor: "#198754",color: "white",border: "none",borderRadius: "7px",fontWeight: "600",cursor: "pointer"}}>
-                {showAddForm ? "Close Form" : "+ Add Vehicle"}
-            </button>
-
-        </div>
-
-        {showAddForm && (
-        <div
-            style={{
-            maxWidth: "700px",
-            padding: "25px",
-            marginBottom: "30px",
-            border: "1px solid #ddd",
-            borderRadius: "12px",
-            backgroundColor: "white",
-            boxShadow: "0 3px 12px rgba(0,0,0,0.08)"
-            }}
-        >
-            <h3 style={{ marginBottom: "20px" }}>Add New Vehicle</h3>
-
-            <div style={{ display: "grid", gap: "15px" }}>
-
-            <input type="text"placeholder="Vehicle Model"value={newVehicle.model}onChange={(e) =>setNewVehicle({ ...newVehicle, model: e.target.value })}/>
-
-            <input type="text"placeholder="Registration Number"value={newVehicle.regNo}onChange={(e) =>setNewVehicle({ ...newVehicle, regNo: e.target.value })}/>
-
-            <input type="text"placeholder="Brand"value={newVehicle.brand}onChange={(e) =>setNewVehicle({ ...newVehicle, brand: e.target.value })}/>
-
-            <input type="text"placeholder="Vehicle Type"value={newVehicle.type}onChange={(e) =>setNewVehicle({ ...newVehicle, type: e.target.value })}/>
-
-            <input type="text"placeholder="Fuel Type"value={newVehicle.fuelType}onChange={(e) =>setNewVehicle({ ...newVehicle, fuelType: e.target.value })}/>
-
-            <input type="number"placeholder="Number of Seats"value={newVehicle.seat}onChange={(e) =>setNewVehicle({ ...newVehicle, seat: e.target.value })}/>
-
-            <input type="number"placeholder="Daily Rate"value={newVehicle.dailyRate}onChange={(e) =>setNewVehicle({ ...newVehicle, dailyRate: e.target.value })}/>
-
-            <div>
-                <label style={{ display: "block", marginBottom: "5px" }}>
-                Vehicle Image
-                </label>
-
-                <input type="file"accept="image/*"onChange={(e) => setVehicleImage(e.target.files[0])}/>
-            </div>
-
-            <button onClick={handleAddVehicle}
-                type="button"style={{padding: "11px",backgroundColor: "#198754",color: "white",border: "none",borderRadius: "7px",fontWeight: "600",cursor: "pointer"}}>
-                Save Vehicle
-            </button>
-
-            </div>
-        </div>
-        )}
-
-        <p>Total Vehicles: {vehicles.length}</p>
+        {/* ==========================================
+            ADD VEHICLE BUTTON
+        ========================================== */}
 
         <div
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-            marginTop: "30px"
+            marginTop: "20px",
+            marginBottom: "30px"
           }}
         >
 
-          {editingVehicle && (
+          <button
+            onClick={() => setShowAddForm(!showAddForm)}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#198754",
+              color: "white",
+              border: "none",
+              borderRadius: "7px",
+              fontWeight: "600",
+              cursor: "pointer"
+            }}
+          >
+            {showAddForm ? "Close Form" : "+ Add Vehicle"}
+          </button>
+
+        </div>
+
+
+        {/* ==========================================
+            ADD VEHICLE FORM
+        ========================================== */}
+
+        {showAddForm && (
+
+          <div
+            style={{
+              maxWidth: "700px",
+              padding: "25px",
+              marginBottom: "30px",
+              border: "1px solid #ddd",
+              borderRadius: "12px",
+              backgroundColor: "white",
+              boxShadow: "0 3px 12px rgba(0,0,0,0.08)"
+            }}
+          >
+
+            <h3 style={{ marginBottom: "20px" }}>
+              Add New Vehicle
+            </h3>
+
+            <div
+              style={{
+                display: "grid",
+                gap: "15px"
+              }}
+            >
+
+              <input
+                type="text"
+                placeholder="Vehicle Model"
+                value={newVehicle.model}
+                onChange={(e) =>
+                  setNewVehicle({
+                    ...newVehicle,
+                    model: e.target.value
+                  })
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Registration Number"
+                value={newVehicle.regNo}
+                onChange={(e) =>
+                  setNewVehicle({
+                    ...newVehicle,
+                    regNo: e.target.value
+                  })
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Brand"
+                value={newVehicle.brand}
+                onChange={(e) =>
+                  setNewVehicle({
+                    ...newVehicle,
+                    brand: e.target.value
+                  })
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Vehicle Type"
+                value={newVehicle.type}
+                onChange={(e) =>
+                  setNewVehicle({
+                    ...newVehicle,
+                    type: e.target.value
+                  })
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Fuel Type"
+                value={newVehicle.fuelType}
+                onChange={(e) =>
+                  setNewVehicle({
+                    ...newVehicle,
+                    fuelType: e.target.value
+                  })
+                }
+              />
+
+              <input
+                type="number"
+                placeholder="Number of Seats"
+                value={newVehicle.seat}
+                onChange={(e) =>
+                  setNewVehicle({
+                    ...newVehicle,
+                    seat: e.target.value
+                  })
+                }
+              />
+
+              <input
+                type="number"
+                placeholder="Daily Rate"
+                value={newVehicle.dailyRate}
+                onChange={(e) =>
+                  setNewVehicle({
+                    ...newVehicle,
+                    dailyRate: e.target.value
+                  })
+                }
+              />
+
+              <div>
+
+                <label
+                  style={{
+                    display: "block",
+                    marginBottom: "5px"
+                  }}
+                >
+                  Vehicle Image
+                </label>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setVehicleImage(e.target.files[0])
+                  }
+                />
+
+              </div>
+
+              <button
+                onClick={handleAddVehicle}
+                type="button"
+                style={{
+                  padding: "11px",
+                  backgroundColor: "#198754",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "7px",
+                  fontWeight: "600",
+                  cursor: "pointer"
+                }}
+              >
+                Save Vehicle
+              </button>
+
+            </div>
+
+          </div>
+
+        )}
+
+
+        {/* ==========================================
+            TOTAL VEHICLES
+        ========================================== */}
+
+        <p>
+          Total Vehicles: {vehicles.length}
+        </p>
+
+
+        {/* ==========================================
+            UPDATE VEHICLE FORM
+        ========================================== */}
+
+        {editingVehicle && (
+
           <div
             style={{
               maxWidth: "700px",
@@ -290,11 +451,17 @@ const handleUpdateVehicle = async () => {
               boxShadow: "0 3px 12px rgba(0,0,0,0.08)"
             }}
           >
+
             <h3 style={{ marginBottom: "20px" }}>
               Update Vehicle
             </h3>
 
-            <div style={{ display: "grid", gap: "15px" }}>
+            <div
+              style={{
+                display: "grid",
+                gap: "15px"
+              }}
+            >
 
               <input
                 type="text"
@@ -381,18 +548,33 @@ const handleUpdateVehicle = async () => {
               />
 
               <div>
-                <label style={{ display: "block", marginBottom: "5px" }}>
+
+                <label
+                  style={{
+                    display: "block",
+                    marginBottom: "5px"
+                  }}
+                >
                   Change Vehicle Image (Optional)
                 </label>
 
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setUpdateVehicleImage(e.target.files[0])}
+                  onChange={(e) =>
+                    setUpdateVehicleImage(e.target.files[0])
+                  }
                 />
+
               </div>
 
-              <div style={{ display: "flex", gap: "10px" }}>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px"
+                }}
+              >
 
                 <button
                   onClick={handleUpdateVehicle}
@@ -413,7 +595,10 @@ const handleUpdateVehicle = async () => {
 
                 <button
                   type="button"
-                  onClick={() => setEditingVehicle(null)}
+                  onClick={() => {
+                    setEditingVehicle(null);
+                    setUpdateVehicleImage(null);
+                  }}
                   style={{
                     flex: 1,
                     padding: "11px",
@@ -431,79 +616,174 @@ const handleUpdateVehicle = async () => {
               </div>
 
             </div>
+
           </div>
+
         )}
 
-          {vehicles.map((vehicle) => (
 
-            <div
-              key={vehicle.vehicleId}
-              style={{
-                width: "300px",
-                border: "1px solid #ddd",
-                borderRadius: "10px",
-                padding: "20px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
-              }}
-            >
+        {/* ==========================================
+            VEHICLE TABLE
+        ========================================== */}
 
-              <img
-                src={`http://localhost:8080/uploads/${vehicle.imagePath}`}
-                alt={vehicle.model}
-                style={{
-                  width: "100%",
-                  height: "170px",
-                  objectFit: "contain"
-                }}
-              />
+        {vehicles.length === 0 ? (
 
-              <h3 style={{ marginTop: "15px" }}>
-                {vehicle.model}
-              </h3>
+          <div className="vehicles-no-data">
+            No vehicles available.
+          </div>
 
-              <p>
-                <strong>Brand:</strong> {vehicle.brand}
-              </p>
+        ) : (
 
-              <p>
-                <strong>Registration No:</strong> {vehicle.regNo}
-              </p>
+          <div className="vehicles-table-wrapper">
 
-              <p>
-                <strong>Type:</strong> {vehicle.type}
-              </p>
+            <table className="vehicles-table">
 
-              <p>
-                <strong>Fuel:</strong> {vehicle.fuelType}
-              </p>
+              <thead>
 
-              <p>
-                <strong>Seats:</strong> {vehicle.seat}
-              </p>
+                <tr>
+                  <th>Vehicle</th>
+                  <th>Registration No</th>
+                  <th>Brand</th>
+                  <th>Type</th>
+                  <th>Fuel Type</th>
+                  <th>Seats</th>
+                  <th>Daily Rate</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
 
-              <p>
-                <strong>Daily Rate:</strong> Rs. {vehicle.dailyRate}
-              </p>
+              </thead>
 
-              <p>
-                <strong>Status:</strong> {vehicle.status}
-              </p>
 
-              <button onClick={() => setEditingVehicle(vehicle)}style={{width: "100%",marginTop: "15px",padding: "10px",backgroundColor: "#0d6efd",color: "white",border: "none",borderRadius: "7px",cursor: "pointer",fontWeight: "600"}}>
-                Edit Vehicle
-              </button>
+              <tbody>
 
-              <button onClick={() => handleDeleteVehicle(vehicle.vehicleId)}style={{width: "100%",marginTop: "15px",padding: "10px",backgroundColor: "#dc3545",color: "white",border: "none",borderRadius: "7px",cursor: "pointer",fontWeight: "600"}}>
-                Delete Vehicle
-              </button>
+                {vehicles.map((vehicle) => (
 
-            </div>
+                  <tr key={vehicle.vehicleId}>
 
-          ))}
+                    {/* Vehicle Image + Model */}
 
-        </div>
+                    <td>
+
+                      <div className="vehicles-table-vehicle">
+
+                        <img
+                          src={`http://localhost:8080/uploads/${vehicle.imagePath}`}
+                          alt={vehicle.model}
+                          className="vehicles-table-image"
+                        />
+
+                        <span className="vehicles-table-model">
+                          {vehicle.model}
+                        </span>
+
+                      </div>
+
+                    </td>
+
+
+                    {/* Registration Number */}
+
+                    <td>
+                      {vehicle.regNo}
+                    </td>
+
+
+                    {/* Brand */}
+
+                    <td>
+                      {vehicle.brand}
+                    </td>
+
+
+                    {/* Type */}
+
+                    <td>
+                      {vehicle.type}
+                    </td>
+
+
+                    {/* Fuel Type */}
+
+                    <td>
+                      {vehicle.fuelType}
+                    </td>
+
+
+                    {/* Seats */}
+
+                    <td>
+                      {vehicle.seat}
+                    </td>
+
+
+                    {/* Daily Rate */}
+
+                    <td className="vehicles-table-rate">
+                      Rs. {vehicle.dailyRate}
+                    </td>
+
+
+                    {/* Status */}
+
+                    <td>
+
+                      <span
+                        className={`vehicles-status-badge ${
+                          vehicle.status === "AVAILABLE"
+                            ? "vehicles-available"
+                            : "vehicles-booked"
+                        }`}
+                      >
+                        {vehicle.status}
+                      </span>
+
+                    </td>
+
+
+                    {/* Action */}
+
+                    <td>
+
+                      <div className="vehicles-table-actions">
+
+                        <button
+                          onClick={() => {
+                            setEditingVehicle(vehicle);
+                            setUpdateVehicleImage(null);
+                          }}
+                          className="vehicles-edit-btn"
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          onClick={() =>
+                            handleDeleteVehicle(vehicle.vehicleId)
+                          }
+                          className="vehicles-delete-btn"
+                        >
+                          Delete
+                        </button>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+
+                ))}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        )}
 
       </div>
+
     </>
   );
 }

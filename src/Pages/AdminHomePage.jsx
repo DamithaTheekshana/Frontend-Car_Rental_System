@@ -30,32 +30,33 @@ function AdminHomePage() {
   }, []);
 
   const handleUpdateStatus = async (bookingId, status) => {
-  try {
-    const response = await fetch(
-      "http://localhost:8080/booking/update-status",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          bookingId: bookingId,
-          status: status
-        })
+    try {
+
+      const response = await fetch(
+        "http://localhost:8080/booking/update-status",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            bookingId: bookingId,
+            status: status
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Status update failed");
       }
-    );
 
-    if (!response.ok) {
-      throw new Error("Status update failed");
-    }
+      alert(`Booking ${status.toLowerCase()} successfully!`);
 
-    alert(`Booking ${status.toLowerCase()} successfully!`);
-
-    setBookings((prevBookings) =>
-      prevBookings.filter(
-        (booking) => booking.bookingId !== bookingId
-      )
-    );
+      setBookings((prevBookings) =>
+        prevBookings.filter(
+          (booking) => booking.bookingId !== bookingId
+        )
+      );
 
     } catch (error) {
       console.error("Update Status Error:", error);
@@ -63,129 +64,192 @@ function AdminHomePage() {
     }
   };
 
+
   return (
-  <>
-    <AdminNavbar />
-    <HomeCarousel />
+    <>
+      <AdminNavbar />
 
-    <div className="admin-bookings-section">
+      <HomeCarousel />
 
-      <h2 className="admin-bookings-title">
-        Pending & Unpaid Bookings
-      </h2>
+      <div className="admin-bookings-section">
 
-      <p className="admin-bookings-count">
-        Total Bookings: {bookings.length}
-      </p>
+        <h2 className="admin-bookings-title">
+          Pending Booking Requests
+        </h2>
 
-      <div className="admin-bookings-grid">
+        <p className="admin-bookings-count">
+          Total Pending Bookings: {bookings.length}
+        </p>
 
-        {bookings.map((booking) => (
-          <div
-            key={booking.bookingId}
-            className="admin-booking-card"
-          >
 
-            <img
-              src={`http://localhost:8080/uploads/${booking.vehicleImage}`}
-              alt={booking.vehicleModel}
-              className="admin-booking-image"
-            />
+        {/* No Bookings */}
+        {bookings.length === 0 ? (
 
-            <h3>{booking.vehicleModel}</h3>
+          <div className="admin-no-bookings">
+            No pending booking requests.
+          </div>
 
-            <div className="admin-booking-details">
+        ) : (
 
-              <p>
-                <strong>Customer:</strong> {booking.customerName}
-              </p>
+          /* Booking Table */
+          <div className="admin-bookings-table-wrapper">
 
-              <p>
-                <strong>From:</strong> {booking.startDate}
-              </p>
+            <table className="admin-bookings-table">
 
-              <p>
-                <strong>To:</strong> {booking.endDate}
-              </p>
+              <thead>
+                <tr>
+                  <th>Vehicle</th>
+                  <th>Customer</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Total Days</th>
+                  <th>Daily Rate</th>
+                  <th>Total Amount</th>
+                  <th>Status</th>
+                  <th>Payment</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
 
-              <p>
-                <strong>Total Days:</strong> {booking.totalDays}
-              </p>
 
-              <p>
-                <strong>Daily Rate:</strong> Rs. {booking.dailyRate}
-              </p>
+              <tbody>
 
-              <p className="admin-booking-amount">
-                Total Amount: Rs. {booking.totalAmount}
-              </p>
+                {bookings.map((booking) => (
 
-              <div className="admin-status-row">
+                  <tr key={booking.bookingId}>
 
-                <div>
-                  <strong>Status: </strong>
+                    {/* Vehicle Image + Model */}
+                    <td>
+                      <div className="admin-table-vehicle">
 
-                  <span
-                    className={`admin-status-badge ${
-                      booking.status === "APPROVED"
-                        ? "admin-approved-badge"
-                        : "admin-pending-badge"
-                    }`}
-                  >
-                    {booking.status}
-                  </span>
-                </div>
+                        <img
+                          src={`http://localhost:8080/uploads/${booking.vehicleImage}`}
+                          alt={booking.vehicleModel}
+                          className="admin-table-vehicle-image"
+                        />
 
-                <div>
-                  <strong>Payment: </strong>
+                        <span className="admin-table-vehicle-model">
+                          {booking.vehicleModel}
+                        </span>
 
-                  <span className="admin-payment-badge">
-                    {booking.paymentStatus}
-                  </span>
-                </div>
+                      </div>
+                    </td>
 
-              </div>
 
-            </div>
+                    {/* Customer */}
+                    <td>
+                      {booking.customerName}
+                    </td>
 
-            <div className="admin-booking-actions">
 
-              <button
-                onClick={() =>
-                  handleUpdateStatus(
-                    booking.bookingId,
-                    "APPROVED"
-                  )
-                }
-                className="admin-action-btn admin-approve-btn"
-              >
-                Approve
-              </button>
+                    {/* Start Date */}
+                    <td>
+                      {booking.startDate}
+                    </td>
 
-              <button
-                onClick={() =>
-                  handleUpdateStatus(
-                    booking.bookingId,
-                    "REJECTED"
-                  )
-                }
-                className="admin-action-btn admin-reject-btn"
-              >
-                Reject
-              </button>
 
-            </div>
+                    {/* End Date */}
+                    <td>
+                      {booking.endDate}
+                    </td>
+
+
+                    {/* Total Days */}
+                    <td>
+                      {booking.totalDays}
+                    </td>
+
+
+                    {/* Daily Rate */}
+                    <td>
+                      Rs. {booking.dailyRate}
+                    </td>
+
+
+                    {/* Total Amount */}
+                    <td className="admin-table-total">
+                      Rs. {booking.totalAmount}
+                    </td>
+
+
+                    {/* Booking Status */}
+                    <td>
+
+                      <span
+                        className={`admin-status-badge ${
+                          booking.status === "APPROVED"
+                            ? "admin-approved-badge"
+                            : "admin-pending-badge"
+                        }`}
+                      >
+                        {booking.status}
+                      </span>
+
+                    </td>
+
+
+                    {/* Payment Status */}
+                    <td>
+
+                      <span className="admin-payment-badge">
+                        {booking.paymentStatus}
+                      </span>
+
+                    </td>
+
+
+                    {/* Action Buttons */}
+                    <td>
+
+                      <div className="admin-table-actions">
+
+                        <button
+                          onClick={() =>
+                            handleUpdateStatus(
+                              booking.bookingId,
+                              "APPROVED"
+                            )
+                          }
+                          className="admin-action-btn admin-approve-btn"
+                        >
+                          Approve
+                        </button>
+
+
+                        <button
+                          onClick={() =>
+                            handleUpdateStatus(
+                              booking.bookingId,
+                              "REJECTED"
+                            )
+                          }
+                          className="admin-action-btn admin-reject-btn"
+                        >
+                          Reject
+                        </button>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+
+                ))}
+
+              </tbody>
+
+            </table>
 
           </div>
-        ))}
+
+        )}
 
       </div>
 
-    </div>
+      <Footer />
 
-    <Footer />
-  </>
-);
+    </>
+  );
 }
 
 export default AdminHomePage

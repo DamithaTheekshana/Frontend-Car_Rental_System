@@ -1,0 +1,199 @@
+/* ============================= */
+/* MAIN PAGE */
+/* ============================= */
+
+.customer-history-page {
+    min-height: 100vh;
+    background-color: #f5f6f8;
+    padding: 40px;
+}
+
+.customer-history-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 5px;
+}
+
+.customer-history-subtitle {
+    color: #6c757d;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+
+/* ============================= */
+/* TABLE WRAPPER */
+/* ============================= */
+
+.customer-history-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ============================= */
+/* TABLE */
+/* ============================= */
+
+.customer-history-table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+}
+
+.customer-history-table thead {
+    background-color: #212529;
+    color: white;
+}
+
+.customer-history-table th {
+    padding: 15px 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.customer-history-table td {
+    padding: 14px 12px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 14px;
+    color: #343a40;
+}
+
+.customer-history-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.customer-history-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.customer-history-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ============================= */
+/* VEHICLE */
+/* ============================= */
+
+.customer-history-vehicle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 150px;
+}
+
+.customer-history-vehicle-image {
+    width: 120px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #eeeeee;
+    padding: 4px;
+}
+
+.customer-history-vehicle-model {
+    font-size: 14px;
+    font-weight: 600;
+    color: #212529;
+    text-align: center;
+}
+
+
+/* ============================= */
+/* TOTAL AMOUNT */
+/* ============================= */
+
+.customer-history-total {
+    font-weight: 700;
+    color: #198754 !important;
+    white-space: nowrap;
+}
+
+
+/* ============================= */
+/* STATUS BADGES */
+/* ============================= */
+
+.customer-history-status {
+    display: inline-block;
+    min-width: 100px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.customer-status-completed {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.customer-status-rejected {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.customer-status-cancelled {
+    background-color: #e2e3e5;
+    color: #41464b;
+}
+
+.customer-status-default {
+    background-color: #fff3cd;
+    color: #664d03;
+}
+
+
+/* ============================= */
+/* LOADING / EMPTY MESSAGE */
+/* ============================= */
+
+.customer-history-message {
+    background-color: white;
+    padding: 35px;
+    border-radius: 10px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 16px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+    .customer-history-page {
+        padding: 20px 15px;
+    }
+
+    .customer-history-title {
+        font-size: 24px;
+    }
+
+    .customer-history-table th,
+    .customer-history-table td {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+
+    .customer-history-vehicle-image {
+        width: 100px;
+        height: 70px;
+    }
+}

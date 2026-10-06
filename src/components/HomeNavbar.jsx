@@ -35,15 +35,40 @@ function HomeNavbar() {
                 <Link to="/mybookings"style={{color: "white",textDecoration: "none",fontWeight: "600"}}>
                     My Bookings
                 </Link>
+
+                <Link
+                  to="/booking-history"
+                  style={{
+                    color: "white",
+                    textDecoration: "none",
+                    fontWeight: "600"
+                  }}
+                >
+                  Booking History
+                </Link>
                 
                   <span style={{ color: "white", fontWeight: "600" }}>
                     Welcome, {user.fullName}
                   </span>
 
-                  <button onClick={handleLogout}
-                    style={{ backgroundColor: "#dc3545",color: "white",border: "none",borderRadius: "6px",padding: "8px 15px",cursor: "pointer",fontWeight: "600"}}>
-                    Logout
-                  </button>
+                  <Link
+                    to={"/loginpage"}
+                    onClick={handleLogout}
+                    style={{
+                      color: "white",
+                      textDecoration: "none",
+                      fontWeight: "500",
+                      marginTop: "5px",
+                      marginBottom: "5px"
+                    }}
+                  >
+                    <img
+                      src="/img/icons8-login-50.png"
+                      alt="Logout"
+                      width="48"
+                    />
+                    Log out
+                  </Link>
                 </>
               ) : (
               <>

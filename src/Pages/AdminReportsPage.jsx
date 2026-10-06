@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
+import "./AdminReportsPage.css";
 
 function AdminReportsPage() {
 
@@ -11,12 +12,21 @@ function AdminReportsPage() {
     totalRevenue: 0
   });
 
+  const [history, setHistory] = useState([]);
+
   useEffect(() => {
     fetchReport();
+    fetchBookingHistory();
   }, []);
 
+
+  // =========================
+  // FETCH REPORT SUMMARY
+  // =========================
   const fetchReport = async () => {
+
     try {
+
       const response = await fetch(
         "http://localhost:8080/report/summary"
       );
@@ -26,38 +36,64 @@ function AdminReportsPage() {
       }
 
       const data = await response.json();
+
       setReport(data);
 
     } catch (error) {
+
       console.error("Report Fetch Error:", error);
+
     }
   };
+
+
+  // =========================
+  // FETCH BOOKING HISTORY
+  // =========================
+  const fetchBookingHistory = async () => {
+
+    try {
+
+      const response = await fetch(
+        "http://localhost:8080/booking-history/all"
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch booking history");
+      }
+
+      const data = await response.json();
+
+      setHistory(data);
+
+    } catch (error) {
+
+      console.error("Booking History Fetch Error:", error);
+
+    }
+  };
+
 
   return (
     <>
       <AdminNavbar />
 
-      <div
-        style={{
-          minHeight: "100vh",
-          backgroundColor: "#f5f6f8",
-          padding: "40px"
-        }}
-      >
-        <h2>System Reports</h2>
+      <div className="admin-reports-page">
 
-        <p style={{ marginBottom: "30px", color: "#666" }}>
+        {/* ========================= */}
+        {/* REPORT SUMMARY */}
+        {/* ========================= */}
+
+        <h2 className="reports-main-title">
+          System Reports
+        </h2>
+
+        <p className="reports-subtitle">
           Car Rental System Summary
         </p>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: "20px"
-          }}
-        >
+
+        <div className="report-card-grid">
 
           <ReportCard
             title="Total Customers"
@@ -87,42 +123,179 @@ function AdminReportsPage() {
           />
 
         </div>
+
+
+        {/* ========================= */}
+        {/* BOOKING HISTORY */}
+        {/* ========================= */}
+
+        <div className="reports-history-section">
+
+          <div className="reports-history-header">
+
+            <div>
+              <h2 className="reports-history-title">
+                Booking History
+              </h2>
+
+              <p className="reports-history-subtitle">
+                Completed, cancelled and rejected booking records
+              </p>
+            </div>
+
+            <div className="reports-history-count">
+              Total Records: <strong>{history.length}</strong>
+            </div>
+
+          </div>
+
+
+          {history.length === 0 ? (
+
+            <div className="reports-history-empty">
+              No booking history available.
+            </div>
+
+          ) : (
+
+            <div className="reports-history-table-wrapper">
+
+              <table className="reports-history-table">
+
+                <thead>
+                  <tr>
+                    <th>Vehicle</th>
+                    <th>Customer</th>
+                    <th>Booking Date</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+
+
+                <tbody>
+
+                  {history.map((booking) => (
+
+                    <tr key={booking.historyId}>
+
+                      {/* Vehicle */}
+                      <td>
+
+                        <div className="reports-history-vehicle">
+
+                          <img
+                            src={`http://localhost:8080/uploads/${booking.vehicleImage}`}
+                            alt={booking.vehicleModel}
+                            className="reports-history-vehicle-image"
+                          />
+
+                          <span className="reports-history-vehicle-model">
+                            {booking.vehicleModel}
+                          </span>
+
+                        </div>
+
+                      </td>
+
+
+                      {/* Customer */}
+                      <td className="reports-customer-name">
+                        {booking.customerName || "-"}
+                      </td>
+
+
+                      {/* Booking Date */}
+                      <td>
+                        {booking.bookingDate
+                          ? new Date(
+                              booking.bookingDate
+                            ).toLocaleDateString()
+                          : "-"}
+                      </td>
+
+
+                      {/* Start Date */}
+                      <td>
+                        {booking.startDate || "-"}
+                      </td>
+
+
+                      {/* End Date */}
+                      <td>
+                        {booking.endDate || "-"}
+                      </td>
+
+
+                      {/* Total */}
+                      <td className="reports-history-total">
+                        Rs. {Number(
+                          booking.total
+                        ).toLocaleString()}
+                      </td>
+
+
+                      {/* Status */}
+                      <td>
+
+                        <span
+                          className={`reports-history-status ${
+                            booking.status === "COMPLETED"
+                              ? "reports-status-completed"
+                              : booking.status === "REJECTED"
+                              ? "reports-status-rejected"
+                              : booking.status === "CANCELLED"
+                              ? "reports-status-cancelled"
+                              : "reports-status-default"
+                          }`}
+                        >
+                          {booking.status}
+                        </span>
+
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          )}
+
+        </div>
+
       </div>
     </>
   );
 }
 
+
+// =========================
+// REPORT CARD COMPONENT
+// =========================
+
 function ReportCard({ title, value }) {
+
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        padding: "25px",
-        borderRadius: "12px",
-        boxShadow: "0 3px 12px rgba(0,0,0,0.08)",
-        border: "1px solid #eee"
-      }}
-    >
-      <p
-        style={{
-          margin: 0,
-          color: "#6c757d",
-          fontSize: "15px"
-        }}
-      >
+
+    <div className="report-summary-card">
+
+      <p className="report-card-title">
         {title}
       </p>
 
-      <h2
-        style={{
-          marginTop: "12px",
-          marginBottom: 0,
-          fontSize: "28px"
-        }}
-      >
+      <h2 className="report-card-value">
         {value}
       </h2>
+
     </div>
+
   );
 }
 

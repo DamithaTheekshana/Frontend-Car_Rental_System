@@ -14,13 +14,13 @@ function HomeCarousel() {
             {/* Carousel images */}
             <div className="carousel-inner">
                 <div className="carousel-item active">
-                    <img src="\img\istockphoto-1344954298-612x612.jpg"className="d-block w-100"alt="Slide 1"style={{ height: "70vh", objectFit: "cover" }}/>
+                    <img src="\img\istockphoto-1344954298-612x612.jpg"className="d-block w-100"alt="Slide 1"style={{ height: "92vh", objectFit: "cover" }}/>
                 </div>
                 <div className="carousel-item">
-                    <img src="\img\istockphoto-1331273789-612x612.jpg"className="d-block w-100"alt="Slide 2"style={{ height: "70vh", objectFit: "cover" }}/>
+                    <img src="\img\istockphoto-1331273789-612x612.jpg"className="d-block w-100"alt="Slide 2"style={{ height: "92vh", objectFit: "cover" }}/>
                 </div>
                 <div className="carousel-item">
-                    <img src="\img\istockphoto-1644775768-612x612.jpg"className="d-block w-100"alt="Slide 3"style={{ height: "70vh", objectFit: "cover" }}/>
+                    <img src="\img\istockphoto-1644775768-612x612.jpg"className="d-block w-100"alt="Slide 3"style={{ height: "92vh", objectFit: "cover" }}/>
                 </div>
             </div>
 

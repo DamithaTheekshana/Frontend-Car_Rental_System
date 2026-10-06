@@ -39,6 +39,10 @@ function HomeNavbar() {
                 <Link to="/booking-history"style={{color: "white",textDecoration: "none",fontWeight: "600"}}><img src='/img/icons8-report-50.png'></img>
                   Booking History
                 </Link>
+
+                <Link to="/payment-history"style={{color: "white",textDecoration: "none",fontWeight: "600" }}><img src="/img/icons8-report-50.png"alt="Payment History"width="48"/>
+                  Payment History
+                </Link>
                 
                   <span style={{ color: "white", fontWeight: "600" }}>
                     Welcome, {user.fullName}

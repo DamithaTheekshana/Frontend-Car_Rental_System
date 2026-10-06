@@ -885,7 +885,93 @@ function MyBookingsPage() {
 
                 </div>
 
+                {/* ================================= */}
+                {/* VIRTUAL CARD PREVIEW */}
+                {/* ================================= */}
 
+                <div className="virtual-card-preview">
+
+                  <div className="virtual-card-top">
+
+                    <div>
+                      <span className="virtual-card-bank">
+                        THE TRIP KEY
+                      </span>
+
+                      <span className="virtual-card-type">
+                        DEBIT CARD
+                      </span>
+                    </div>
+
+                    <div className="virtual-card-chip">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+
+                  </div>
+
+
+                  <div className="virtual-card-number">
+
+                    {cardDetails.cardNumber
+                      ? (() => {
+
+                          const digits =
+                            cardDetails.cardNumber.replace(/\s/g, "");
+
+                          const lastFour =
+                            digits.slice(-4);
+
+                          return digits.length > 0
+                            ? `••••  ••••  ••••  ${lastFour.padStart(4, "•")}`
+                            : "••••  ••••  ••••  ••••";
+
+                        })()
+                      : "••••  ••••  ••••  ••••"
+                    }
+
+                  </div>
+
+
+                  <div className="virtual-card-bottom">
+
+                    <div className="virtual-card-detail">
+
+                      <span>
+                        CARD HOLDER
+                      </span>
+
+                      <strong>
+                        {cardDetails.cardholderName.trim()
+                          ? cardDetails.cardholderName.toUpperCase()
+                          : "YOUR NAME"
+                        }
+                      </strong>
+
+                    </div>
+
+
+                    <div className="virtual-card-detail">
+
+                      <span>
+                        EXPIRES
+                      </span>
+
+                      <strong>
+                        {cardDetails.expiryDate || "MM/YY"}
+                      </strong>
+
+                    </div>
+
+
+                    <div className="virtual-card-brand">
+                      <span>VISA</span>
+                    </div>
+
+                  </div>
+
+                </div>
 
                 {/* CARDHOLDER NAME */}
 

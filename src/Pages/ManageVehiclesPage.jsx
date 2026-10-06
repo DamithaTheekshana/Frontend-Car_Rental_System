@@ -4,10 +4,18 @@ import "./ManageVehiclesPage.css";
 
 function ManageVehiclesPage() {
 
+  // ==========================================
+  // STATES
+  // ==========================================
+
   const [vehicles, setVehicles] = useState([]);
+
   const [showAddForm, setShowAddForm] = useState(false);
+
   const [editingVehicle, setEditingVehicle] = useState(null);
+
   const [updateVehicleImage, setUpdateVehicleImage] = useState(null);
+
 
   const [newVehicle, setNewVehicle] = useState({
     model: "",
@@ -19,6 +27,7 @@ function ManageVehiclesPage() {
     dailyRate: ""
   });
 
+
   const [vehicleImage, setVehicleImage] = useState(null);
 
 
@@ -29,6 +38,7 @@ function ManageVehiclesPage() {
   useEffect(() => {
 
     fetch("http://localhost:8080/vehicle/adminDisplayVehicles")
+
       .then((response) => {
 
         if (!response.ok) {
@@ -36,13 +46,21 @@ function ManageVehiclesPage() {
         }
 
         return response.json();
+
       })
+
       .then((data) => {
+
         console.log("Admin Vehicles:", data);
+
         setVehicles(data);
+
       })
+
       .catch((error) => {
+
         console.error("Vehicle Fetch Error:", error);
+
       });
 
   }, []);
@@ -57,54 +75,84 @@ function ManageVehiclesPage() {
     try {
 
       if (!vehicleImage) {
+
         alert("Please select a vehicle image!");
+
         return;
       }
 
+
       const vehicleData = {
+
         model: newVehicle.model,
+
         regNo: newVehicle.regNo,
+
         brand: newVehicle.brand,
+
         type: newVehicle.type,
+
         fuelType: newVehicle.fuelType,
+
         seat: Number(newVehicle.seat),
+
         dailyRate: Number(newVehicle.dailyRate)
+
       };
+
 
       const formData = new FormData();
 
+
       const vehicleBlob = new Blob(
+
         [JSON.stringify(vehicleData)],
+
         {
           type: "application/json"
         }
+
       );
 
+
       formData.append("vehicle", vehicleBlob);
+
       formData.append("image", vehicleImage);
 
+
       const response = await fetch(
+
         "http://localhost:8080/vehicle/addVehicle",
+
         {
           method: "POST",
           body: formData
         }
+
       );
 
+
       if (!response.ok) {
+
         throw new Error("Failed to add vehicle");
+
       }
+
 
       alert("Vehicle added successfully!");
 
+
       window.location.reload();
+
 
     } catch (error) {
 
       console.error("Add Vehicle Error:", error);
+
       alert("Failed to add vehicle!");
 
     }
+
   };
 
 
@@ -118,37 +166,54 @@ function ManageVehiclesPage() {
       "Are you sure you want to delete this vehicle?"
     );
 
+
     if (!confirmDelete) {
+
       return;
+
     }
+
 
     try {
 
       const response = await fetch(
+
         `http://localhost:8080/vehicle/deleteVehicle/${vehicleId}`,
+
         {
           method: "DELETE"
         }
+
       );
 
+
       if (!response.ok) {
+
         throw new Error("Failed to delete vehicle");
+
       }
+
 
       alert("Vehicle deleted successfully!");
 
+
       setVehicles((prevVehicles) =>
+
         prevVehicles.filter(
           (vehicle) => vehicle.vehicleId !== vehicleId
         )
+
       );
+
 
     } catch (error) {
 
       console.error("Delete Vehicle Error:", error);
+
       alert("Failed to delete vehicle!");
 
     }
+
   };
 
 
@@ -161,261 +226,505 @@ function ManageVehiclesPage() {
     try {
 
       const vehicleData = {
+
         vehicleId: editingVehicle.vehicleId,
+
         imagePath: editingVehicle.imagePath,
+
         model: editingVehicle.model,
+
         regNo: editingVehicle.regNo,
+
         brand: editingVehicle.brand,
+
         type: editingVehicle.type,
+
         fuelType: editingVehicle.fuelType,
+
         seat: Number(editingVehicle.seat),
+
         dailyRate: Number(editingVehicle.dailyRate)
+
       };
+
 
       const formData = new FormData();
 
+
       const vehicleBlob = new Blob(
+
         [JSON.stringify(vehicleData)],
+
         {
           type: "application/json"
         }
+
       );
+
 
       formData.append("vehicle", vehicleBlob);
 
+
       // New image selected nam witharak image eka yawanne
+
       if (updateVehicleImage) {
-        formData.append("image", updateVehicleImage);
+
+        formData.append(
+          "image",
+          updateVehicleImage
+        );
+
       }
 
+
       const response = await fetch(
+
         "http://localhost:8080/vehicle/updateVehicle",
+
         {
           method: "PUT",
           body: formData
         }
+
       );
 
+
       if (!response.ok) {
+
         throw new Error("Failed to update vehicle");
+
       }
+
 
       alert("Vehicle updated successfully!");
 
-      // New image ekak update kala nam page reload karanawa
+
+      // New image ekak update kala nam
+      // page reload karanawa
+
       if (updateVehicleImage) {
+
         window.location.reload();
+
         return;
+
       }
 
-      // Image eka change nokala nam reload nathuwa table eka update karanawa
+
+      // Image eka change nokala nam
+      // reload nathuwa table eka update karanawa
+
       setVehicles((prevVehicles) =>
+
         prevVehicles.map((vehicle) =>
+
           vehicle.vehicleId === editingVehicle.vehicleId
-            ? { ...vehicle, ...vehicleData }
+
+            ? {
+                ...vehicle,
+                ...vehicleData
+              }
+
             : vehicle
+
         )
+
       );
 
+
       setEditingVehicle(null);
+
       setUpdateVehicleImage(null);
+
 
     } catch (error) {
 
       console.error("Update Vehicle Error:", error);
+
       alert("Failed to update vehicle!");
 
     }
+
   };
 
 
   return (
+
     <>
+
+      {/* ========================================== */}
+      {/* ADMIN NAVBAR */}
+      {/* ========================================== */}
+
       <AdminNavbar />
 
-      <div style={{ padding: "40px 80px" }}>
 
-        <h2>Manage Vehicles</h2>
+      {/* ========================================== */}
+      {/* PAGE */}
+      {/* ========================================== */}
+
+      <main className="manage-vehicles-page">
 
 
-        {/* ==========================================
-            ADD VEHICLE BUTTON
-        ========================================== */}
+        {/* ========================================== */}
+        {/* PAGE HEADER */}
+        {/* ========================================== */}
 
-        <div
-          style={{
-            marginTop: "20px",
-            marginBottom: "30px"
-          }}
-        >
+        <div className="manage-vehicles-header">
+
+          <div>
+
+            <span className="manage-vehicles-small-title">
+              VEHICLE MANAGEMENT
+            </span>
+
+            <h2>
+              Manage Vehicles
+            </h2>
+
+            <p>
+              Add, update and manage your rental vehicle fleet.
+            </p>
+
+          </div>
+
+
+          <div className="manage-vehicles-total">
+
+            <span>
+              Total Vehicles
+            </span>
+
+            <strong>
+              {vehicles.length}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        {/* ========================================== */}
+        {/* ADD VEHICLE BUTTON */}
+        {/* ========================================== */}
+
+        <div className="manage-vehicles-add-area">
 
           <button
-            onClick={() => setShowAddForm(!showAddForm)}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#198754",
-              color: "white",
-              border: "none",
-              borderRadius: "7px",
-              fontWeight: "600",
-              cursor: "pointer"
-            }}
+
+            type="button"
+
+            onClick={() =>
+              setShowAddForm(!showAddForm)
+            }
+
+            className={
+              showAddForm
+                ? "manage-close-form-btn"
+                : "manage-add-vehicle-btn"
+            }
+
           >
-            {showAddForm ? "Close Form" : "+ Add Vehicle"}
+
+            {showAddForm
+              ? "Close Form"
+              : "+ Add Vehicle"
+            }
+
           </button>
 
         </div>
 
 
-        {/* ==========================================
-            ADD VEHICLE FORM
-        ========================================== */}
+        {/* ========================================== */}
+        {/* ADD VEHICLE FORM */}
+        {/* ========================================== */}
 
         {showAddForm && (
 
-          <div
-            style={{
-              maxWidth: "700px",
-              padding: "25px",
-              marginBottom: "30px",
-              border: "1px solid #ddd",
-              borderRadius: "12px",
-              backgroundColor: "white",
-              boxShadow: "0 3px 12px rgba(0,0,0,0.08)"
-            }}
-          >
+          <div className="vehicle-form-card">
 
-            <h3 style={{ marginBottom: "20px" }}>
-              Add New Vehicle
-            </h3>
 
-            <div
-              style={{
-                display: "grid",
-                gap: "15px"
-              }}
-            >
+            {/* FORM HEADER */}
 
-              <input
-                type="text"
-                placeholder="Vehicle Model"
-                value={newVehicle.model}
-                onChange={(e) =>
-                  setNewVehicle({
-                    ...newVehicle,
-                    model: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Registration Number"
-                value={newVehicle.regNo}
-                onChange={(e) =>
-                  setNewVehicle({
-                    ...newVehicle,
-                    regNo: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Brand"
-                value={newVehicle.brand}
-                onChange={(e) =>
-                  setNewVehicle({
-                    ...newVehicle,
-                    brand: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Vehicle Type"
-                value={newVehicle.type}
-                onChange={(e) =>
-                  setNewVehicle({
-                    ...newVehicle,
-                    type: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Fuel Type"
-                value={newVehicle.fuelType}
-                onChange={(e) =>
-                  setNewVehicle({
-                    ...newVehicle,
-                    fuelType: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="number"
-                placeholder="Number of Seats"
-                value={newVehicle.seat}
-                onChange={(e) =>
-                  setNewVehicle({
-                    ...newVehicle,
-                    seat: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="number"
-                placeholder="Daily Rate"
-                value={newVehicle.dailyRate}
-                onChange={(e) =>
-                  setNewVehicle({
-                    ...newVehicle,
-                    dailyRate: e.target.value
-                  })
-                }
-              />
+            <div className="vehicle-form-header">
 
               <div>
 
-                <label
-                  style={{
-                    display: "block",
-                    marginBottom: "5px"
-                  }}
-                >
+                <span>
+                  VEHICLE MANAGEMENT
+                </span>
+
+                <h3>
+                  Add New Vehicle
+                </h3>
+
+                <p>
+                  Enter the vehicle information below
+                  to add a new vehicle to your fleet.
+                </p>
+
+              </div>
+
+
+              <div className="vehicle-form-header-icon">
+
+                <img
+                  src="/img/icons8-car-100.png"
+                  alt="Vehicle"
+                />
+
+              </div>
+
+            </div>
+
+
+            {/* FORM GRID */}
+
+            <div className="vehicle-form-grid">
+
+
+              {/* MODEL */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Vehicle Model
+                </label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="Enter vehicle model"
+
+                  value={newVehicle.model}
+
+                  onChange={(e) =>
+                    setNewVehicle({
+                      ...newVehicle,
+                      model: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* REGISTRATION NUMBER */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Registration Number
+                </label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="Enter registration number"
+
+                  value={newVehicle.regNo}
+
+                  onChange={(e) =>
+                    setNewVehicle({
+                      ...newVehicle,
+                      regNo: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* BRAND */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Brand
+                </label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="Enter vehicle brand"
+
+                  value={newVehicle.brand}
+
+                  onChange={(e) =>
+                    setNewVehicle({
+                      ...newVehicle,
+                      brand: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* VEHICLE TYPE */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Vehicle Type
+                </label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="Example: SUV, Sedan, Van"
+
+                  value={newVehicle.type}
+
+                  onChange={(e) =>
+                    setNewVehicle({
+                      ...newVehicle,
+                      type: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* FUEL TYPE */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Fuel Type
+                </label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="Example: Petrol, Diesel, Hybrid"
+
+                  value={newVehicle.fuelType}
+
+                  onChange={(e) =>
+                    setNewVehicle({
+                      ...newVehicle,
+                      fuelType: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* NUMBER OF SEATS */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Number of Seats
+                </label>
+
+                <input
+
+                  type="number"
+
+                  placeholder="Enter number of seats"
+
+                  value={newVehicle.seat}
+
+                  onChange={(e) =>
+                    setNewVehicle({
+                      ...newVehicle,
+                      seat: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* DAILY RATE */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Daily Rate (Rs.)
+                </label>
+
+                <input
+
+                  type="number"
+
+                  placeholder="Enter daily rental rate"
+
+                  value={newVehicle.dailyRate}
+
+                  onChange={(e) =>
+                    setNewVehicle({
+                      ...newVehicle,
+                      dailyRate: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* VEHICLE IMAGE */}
+
+              <div className="vehicle-form-group">
+
+                <label>
                   Vehicle Image
                 </label>
 
                 <input
+
                   type="file"
+
                   accept="image/*"
+
                   onChange={(e) =>
-                    setVehicleImage(e.target.files[0])
+                    setVehicleImage(
+                      e.target.files[0]
+                    )
                   }
+
                 />
 
               </div>
 
-              <button
-                onClick={handleAddVehicle}
-                type="button"
-                style={{
-                  padding: "11px",
-                  backgroundColor: "#198754",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "7px",
-                  fontWeight: "600",
-                  cursor: "pointer"
-                }}
-              >
-                Save Vehicle
-              </button>
+
+              {/* SAVE BUTTON */}
+
+              <div className="vehicle-form-submit">
+
+                <button
+
+                  type="button"
+
+                  onClick={handleAddVehicle}
+
+                  className="vehicle-save-btn"
+
+                >
+
+                  Save Vehicle
+
+                </button>
+
+              </div>
+
 
             </div>
 
@@ -424,196 +733,319 @@ function ManageVehiclesPage() {
         )}
 
 
-        {/* ==========================================
-            TOTAL VEHICLES
-        ========================================== */}
-
-        <p>
-          Total Vehicles: {vehicles.length}
-        </p>
-
-
-        {/* ==========================================
-            UPDATE VEHICLE FORM
-        ========================================== */}
+        {/* ========================================== */}
+        {/* UPDATE VEHICLE FORM */}
+        {/* ========================================== */}
 
         {editingVehicle && (
 
-          <div
-            style={{
-              maxWidth: "700px",
-              padding: "25px",
-              marginTop: "30px",
-              marginBottom: "30px",
-              border: "1px solid #ddd",
-              borderRadius: "12px",
-              backgroundColor: "white",
-              boxShadow: "0 3px 12px rgba(0,0,0,0.08)"
-            }}
-          >
+          <div className="vehicle-form-card vehicle-update-form">
 
-            <h3 style={{ marginBottom: "20px" }}>
-              Update Vehicle
-            </h3>
 
-            <div
-              style={{
-                display: "grid",
-                gap: "15px"
-              }}
-            >
+            {/* UPDATE HEADER */}
 
-              <input
-                type="text"
-                placeholder="Vehicle Model"
-                value={editingVehicle.model}
-                onChange={(e) =>
-                  setEditingVehicle({
-                    ...editingVehicle,
-                    model: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Registration Number"
-                value={editingVehicle.regNo}
-                onChange={(e) =>
-                  setEditingVehicle({
-                    ...editingVehicle,
-                    regNo: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Brand"
-                value={editingVehicle.brand}
-                onChange={(e) =>
-                  setEditingVehicle({
-                    ...editingVehicle,
-                    brand: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Vehicle Type"
-                value={editingVehicle.type}
-                onChange={(e) =>
-                  setEditingVehicle({
-                    ...editingVehicle,
-                    type: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Fuel Type"
-                value={editingVehicle.fuelType}
-                onChange={(e) =>
-                  setEditingVehicle({
-                    ...editingVehicle,
-                    fuelType: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="number"
-                placeholder="Number of Seats"
-                value={editingVehicle.seat}
-                onChange={(e) =>
-                  setEditingVehicle({
-                    ...editingVehicle,
-                    seat: e.target.value
-                  })
-                }
-              />
-
-              <input
-                type="number"
-                placeholder="Daily Rate"
-                value={editingVehicle.dailyRate}
-                onChange={(e) =>
-                  setEditingVehicle({
-                    ...editingVehicle,
-                    dailyRate: e.target.value
-                  })
-                }
-              />
+            <div className="vehicle-form-header">
 
               <div>
 
-                <label
-                  style={{
-                    display: "block",
-                    marginBottom: "5px"
-                  }}
-                >
-                  Change Vehicle Image (Optional)
+                <span>
+                  VEHICLE MANAGEMENT
+                </span>
+
+                <h3>
+                  Update Vehicle
+                </h3>
+
+                <p>
+                  Edit the selected vehicle information
+                  and save your changes.
+                </p>
+
+              </div>
+
+
+              <div className="vehicle-form-header-icon">
+
+                <img
+                  src="/img/icons8-car-100.png"
+                  alt="Vehicle"
+                />
+
+              </div>
+
+            </div>
+
+
+            {/* UPDATE FORM */}
+
+            <div className="vehicle-form-grid">
+
+
+              {/* MODEL */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Vehicle Model
                 </label>
 
                 <input
-                  type="file"
-                  accept="image/*"
+
+                  type="text"
+
+                  placeholder="Vehicle Model"
+
+                  value={editingVehicle.model}
+
                   onChange={(e) =>
-                    setUpdateVehicleImage(e.target.files[0])
+                    setEditingVehicle({
+                      ...editingVehicle,
+                      model: e.target.value
+                    })
                   }
+
                 />
 
               </div>
 
 
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px"
-                }}
-              >
+              {/* REGISTRATION NUMBER */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Registration Number
+                </label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="Registration Number"
+
+                  value={editingVehicle.regNo}
+
+                  onChange={(e) =>
+                    setEditingVehicle({
+                      ...editingVehicle,
+                      regNo: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* BRAND */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Brand
+                </label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="Brand"
+
+                  value={editingVehicle.brand}
+
+                  onChange={(e) =>
+                    setEditingVehicle({
+                      ...editingVehicle,
+                      brand: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* TYPE */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Vehicle Type
+                </label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="Vehicle Type"
+
+                  value={editingVehicle.type}
+
+                  onChange={(e) =>
+                    setEditingVehicle({
+                      ...editingVehicle,
+                      type: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* FUEL TYPE */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Fuel Type
+                </label>
+
+                <input
+
+                  type="text"
+
+                  placeholder="Fuel Type"
+
+                  value={editingVehicle.fuelType}
+
+                  onChange={(e) =>
+                    setEditingVehicle({
+                      ...editingVehicle,
+                      fuelType: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* SEATS */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Number of Seats
+                </label>
+
+                <input
+
+                  type="number"
+
+                  placeholder="Number of Seats"
+
+                  value={editingVehicle.seat}
+
+                  onChange={(e) =>
+                    setEditingVehicle({
+                      ...editingVehicle,
+                      seat: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* DAILY RATE */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Daily Rate (Rs.)
+                </label>
+
+                <input
+
+                  type="number"
+
+                  placeholder="Daily Rate"
+
+                  value={editingVehicle.dailyRate}
+
+                  onChange={(e) =>
+                    setEditingVehicle({
+                      ...editingVehicle,
+                      dailyRate: e.target.value
+                    })
+                  }
+
+                />
+
+              </div>
+
+
+              {/* IMAGE */}
+
+              <div className="vehicle-form-group">
+
+                <label>
+                  Change Vehicle Image
+                  <span className="vehicle-optional-text">
+                    {" "}(Optional)
+                  </span>
+                </label>
+
+                <input
+
+                  type="file"
+
+                  accept="image/*"
+
+                  onChange={(e) =>
+                    setUpdateVehicleImage(
+                      e.target.files[0]
+                    )
+                  }
+
+                />
+
+              </div>
+
+
+              {/* UPDATE BUTTONS */}
+
+              <div className="vehicle-form-submit vehicle-update-actions">
 
                 <button
-                  onClick={handleUpdateVehicle}
+
                   type="button"
-                  style={{
-                    flex: 1,
-                    padding: "11px",
-                    backgroundColor: "#0d6efd",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "7px",
-                    cursor: "pointer",
-                    fontWeight: "600"
-                  }}
+
+                  onClick={handleUpdateVehicle}
+
+                  className="vehicle-update-btn"
+
                 >
+
                   Update Vehicle
+
                 </button>
 
+
                 <button
+
                   type="button"
+
                   onClick={() => {
+
                     setEditingVehicle(null);
+
                     setUpdateVehicleImage(null);
+
                   }}
-                  style={{
-                    flex: 1,
-                    padding: "11px",
-                    backgroundColor: "#6c757d",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "7px",
-                    cursor: "pointer",
-                    fontWeight: "600"
-                  }}
+
+                  className="vehicle-cancel-btn"
+
                 >
+
                   Cancel
+
                 </button>
 
               </div>
+
 
             </div>
 
@@ -622,14 +1054,48 @@ function ManageVehiclesPage() {
         )}
 
 
-        {/* ==========================================
-            VEHICLE TABLE
-        ========================================== */}
+        {/* ========================================== */}
+        {/* VEHICLE LIST HEADER */}
+        {/* ========================================== */}
+
+        <div className="vehicles-list-title">
+
+          <div>
+
+            <span>
+              CURRENT FLEET
+            </span>
+
+            <h3>
+              Vehicle List
+            </h3>
+
+          </div>
+
+
+          <p>
+            {vehicles.length}{" "}
+
+            {vehicles.length === 1
+              ? "Vehicle"
+              : "Vehicles"
+            }
+
+          </p>
+
+        </div>
+
+
+        {/* ========================================== */}
+        {/* VEHICLE TABLE */}
+        {/* ========================================== */}
 
         {vehicles.length === 0 ? (
 
           <div className="vehicles-no-data">
+
             No vehicles available.
+
           </div>
 
         ) : (
@@ -638,22 +1104,55 @@ function ManageVehiclesPage() {
 
             <table className="vehicles-table">
 
+
+              {/* TABLE HEADER */}
+
               <thead>
 
                 <tr>
-                  <th>Vehicle</th>
-                  <th>Registration No</th>
-                  <th>Brand</th>
-                  <th>Type</th>
-                  <th>Fuel Type</th>
-                  <th>Seats</th>
-                  <th>Daily Rate</th>
-                  <th>Status</th>
-                  <th>Action</th>
+
+                  <th>
+                    Vehicle
+                  </th>
+
+                  <th>
+                    Registration No
+                  </th>
+
+                  <th>
+                    Brand
+                  </th>
+
+                  <th>
+                    Type
+                  </th>
+
+                  <th>
+                    Fuel Type
+                  </th>
+
+                  <th>
+                    Seats
+                  </th>
+
+                  <th>
+                    Daily Rate
+                  </th>
+
+                  <th>
+                    Status
+                  </th>
+
+                  <th>
+                    Action
+                  </th>
+
                 </tr>
 
               </thead>
 
+
+              {/* TABLE BODY */}
 
               <tbody>
 
@@ -661,20 +1160,30 @@ function ManageVehiclesPage() {
 
                   <tr key={vehicle.vehicleId}>
 
-                    {/* Vehicle Image + Model */}
+
+                    {/* VEHICLE IMAGE + MODEL */}
 
                     <td>
 
                       <div className="vehicles-table-vehicle">
 
                         <img
-                          src={`http://localhost:8080/uploads/${vehicle.imagePath}`}
+
+                          src={
+                            `http://localhost:8080/uploads/${vehicle.imagePath}`
+                          }
+
                           alt={vehicle.model}
+
                           className="vehicles-table-image"
+
                         />
 
+
                         <span className="vehicles-table-model">
+
                           {vehicle.model}
+
                         </span>
 
                       </div>
@@ -682,93 +1191,154 @@ function ManageVehiclesPage() {
                     </td>
 
 
-                    {/* Registration Number */}
+                    {/* REGISTRATION NUMBER */}
 
                     <td>
+
                       {vehicle.regNo}
+
                     </td>
 
 
-                    {/* Brand */}
+                    {/* BRAND */}
 
                     <td>
+
                       {vehicle.brand}
+
                     </td>
 
 
-                    {/* Type */}
+                    {/* TYPE */}
 
                     <td>
+
                       {vehicle.type}
+
                     </td>
 
 
-                    {/* Fuel Type */}
+                    {/* FUEL TYPE */}
 
                     <td>
+
                       {vehicle.fuelType}
+
                     </td>
 
 
-                    {/* Seats */}
+                    {/* SEATS */}
 
                     <td>
+
                       {vehicle.seat}
+
                     </td>
 
 
-                    {/* Daily Rate */}
+                    {/* DAILY RATE */}
 
                     <td className="vehicles-table-rate">
-                      Rs. {vehicle.dailyRate}
+
+                      Rs.{" "}
+                      {Number(
+                        vehicle.dailyRate
+                      ).toLocaleString()}
+
                     </td>
 
 
-                    {/* Status */}
+                    {/* STATUS */}
 
                     <td>
 
                       <span
-                        className={`vehicles-status-badge ${
-                          vehicle.status === "AVAILABLE"
-                            ? "vehicles-available"
-                            : "vehicles-booked"
-                        }`}
+
+                        className={
+                          `vehicles-status-badge ${
+                            vehicle.status === "AVAILABLE"
+
+                              ? "vehicles-available"
+
+                              : "vehicles-booked"
+                          }`
+                        }
+
                       >
+
                         {vehicle.status}
+
                       </span>
 
                     </td>
 
 
-                    {/* Action */}
+                    {/* ACTION */}
 
                     <td>
 
                       <div className="vehicles-table-actions">
 
-                        <button
-                          onClick={() => {
-                            setEditingVehicle(vehicle);
-                            setUpdateVehicleImage(null);
-                          }}
-                          className="vehicles-edit-btn"
-                        >
-                          Edit
-                        </button>
+
+                        {/* EDIT */}
 
                         <button
-                          onClick={() =>
-                            handleDeleteVehicle(vehicle.vehicleId)
-                          }
-                          className="vehicles-delete-btn"
+
+                          type="button"
+
+                          onClick={() => {
+
+                            setEditingVehicle(vehicle);
+
+                            setUpdateVehicleImage(null);
+
+                            setShowAddForm(false);
+
+                            setTimeout(() => {
+
+                              window.scrollTo({
+                                top: 150,
+                                behavior: "smooth"
+                              });
+
+                            }, 50);
+
+                          }}
+
+                          className="vehicles-edit-btn"
+
                         >
-                          Delete
+
+                          Edit
+
                         </button>
+
+
+                        {/* DELETE */}
+
+                        <button
+
+                          type="button"
+
+                          onClick={() =>
+                            handleDeleteVehicle(
+                              vehicle.vehicleId
+                            )
+                          }
+
+                          className="vehicles-delete-btn"
+
+                        >
+
+                          Delete
+
+                        </button>
+
 
                       </div>
 
                     </td>
+
 
                   </tr>
 
@@ -782,10 +1352,13 @@ function ManageVehiclesPage() {
 
         )}
 
-      </div>
+
+      </main>
 
     </>
+
   );
+
 }
 
 export default ManageVehiclesPage;

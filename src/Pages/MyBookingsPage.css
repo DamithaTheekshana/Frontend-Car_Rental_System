@@ -753,6 +753,302 @@
     font-size: 12px;
 }
 
+/* ========================================= */
+/* VIRTUAL PAYMENT CARD */
+/* ========================================= */
+
+.virtual-card-preview {
+    position: relative;
+
+    width: 100%;
+    max-width: 420px;
+    min-height: 220px;
+
+    margin: 0 auto 25px;
+    padding: 24px;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #171a1d 0%,
+            #24292e 45%,
+            #343a40 100%
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.22);
+}
+
+
+/* Decorative circles */
+
+.virtual-card-preview::before {
+    content: "";
+
+    position: absolute;
+
+    width: 210px;
+    height: 210px;
+
+    top: -110px;
+    right: -80px;
+
+    background:
+        rgba(255, 193, 7, 0.10);
+
+    border-radius: 50%;
+}
+
+
+.virtual-card-preview::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    bottom: -110px;
+    left: -70px;
+
+    background:
+        rgba(25, 135, 84, 0.13);
+
+    border-radius: 50%;
+}
+
+
+/* ========================================= */
+/* CARD TOP */
+/* ========================================= */
+
+.virtual-card-top {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.virtual-card-bank {
+    display: block;
+
+    color: #ffc107;
+
+    font-size: 16px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+.virtual-card-type {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #adb5bd;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 2px;
+}
+
+
+/* ========================================= */
+/* CHIP */
+/* ========================================= */
+
+.virtual-card-chip {
+    width: 45px;
+    height: 34px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8d568,
+            #cfa72f
+        );
+
+    border: 1px solid #ad8a25;
+    border-radius: 7px;
+}
+
+
+.virtual-card-chip div {
+    border-right:
+        1px solid rgba(80, 60, 0, 0.25);
+}
+
+
+.virtual-card-chip div:last-child {
+    border-right: none;
+}
+
+
+/* ========================================= */
+/* CARD NUMBER */
+/* ========================================= */
+
+.virtual-card-number {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 40px;
+    margin-bottom: 30px;
+
+    color: #ffffff;
+
+    font-size: 22px;
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+}
+
+
+/* ========================================= */
+/* CARD BOTTOM */
+/* ========================================= */
+
+.virtual-card-bottom {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-end;
+
+    gap: 30px;
+}
+
+
+.virtual-card-detail {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+
+.virtual-card-detail:first-child {
+    flex: 1;
+}
+
+
+.virtual-card-detail span {
+    margin-bottom: 4px;
+
+    color: #adb5bd;
+
+    font-size: 8px;
+    font-weight: 600;
+
+    letter-spacing: 1.5px;
+}
+
+
+.virtual-card-detail strong {
+    max-width: 190px;
+
+    overflow: hidden;
+
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* ========================================= */
+/* VISA */
+/* ========================================= */
+
+.virtual-card-brand {
+    margin-left: auto;
+}
+
+
+.virtual-card-brand span {
+    color: #ffffff;
+
+    font-size: 23px;
+    font-weight: 900;
+    font-style: italic;
+
+    letter-spacing: -1px;
+}
+
+
+/* ========================================= */
+/* CARD RESPONSIVE */
+/* ========================================= */
+
+@media (max-width: 500px) {
+
+    .virtual-card-preview {
+        min-height: 195px;
+
+        padding: 20px;
+    }
+
+
+    .virtual-card-number {
+        margin-top: 32px;
+        margin-bottom: 27px;
+
+        font-size: 17px;
+
+        letter-spacing: 1px;
+    }
+
+
+    .virtual-card-bottom {
+        gap: 15px;
+    }
+
+
+    .virtual-card-brand span {
+        font-size: 19px;
+    }
+
+
+    .virtual-card-bank {
+        font-size: 14px;
+    }
+
+
+    .virtual-card-detail strong {
+        max-width: 120px;
+
+        font-size: 10px;
+    }
+}
+
 
 /* ========================================= */
 /* CARD INPUT GROUP */

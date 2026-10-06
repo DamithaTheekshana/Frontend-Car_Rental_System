@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./CarCard.css";
 
 function CarCard({ vehicle }) {
 
@@ -9,161 +10,282 @@ function CarCard({ vehicle }) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
-  console.log("Image Path:", vehicle?.imagePath);
-
-  const cardStyle = {
-    background: "#9e9797",
-    borderRadius: "20px",
-    padding: "20px",
-    width: "400px",
-    color: "black",
-    display: "flex",
-    justifyContent: "space-between"
-  };
-
-  const leftStyle = {
-    width: "65%"
-  };
-
-  const rightStyle = {
-    width: "30%",
-    display: "flex",
-    flexDirection: "column",
-    gap: "25px",
-    fontSize: "20px"
-  };
-
-  const titleStyle = {
-    fontSize: "24px",
-    fontWeight: "700",
-    color: "#ffb000",
-    marginBottom: "10px"
-  };
-
-  const inputStyle = {
-    width: "120px",
-    padding: "6px",
-    borderRadius: "5px",
-    border: "none",
-    fontSize: "15px"
-  };
-
-  const bookBtnStyle = {
-    background: "#2bff00",
-    border: "none",
-    padding: "10px",
-    borderRadius: "8px",
-    fontWeight: "600",
-    cursor: "pointer",
-    marginTop: "10px"
-  };
-
-  const infoRowStyle = {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px"
-  };
-
   const handleBookNow = async () => {
-  if (!user) {
-    navigate("/loginpage");
-    return;
-  }
 
-  if (!fromDate || !toDate) {
-    alert("Please select both From and To dates.");
-    return;
-  }
+    if (!user) {
+      navigate("/loginpage");
+      return;
+    }
 
-  const bookingData = {
-    userId: user.userId,
-    vehicleId: vehicle.vehicleId,
-    startDate: fromDate,
-    endDate: toDate
-  };
+    if (!fromDate || !toDate) {
+      alert("Please select both From and To dates.");
+      return;
+    }
+
+    const bookingData = {
+      userId: user.userId,
+      vehicleId: vehicle.vehicleId,
+      startDate: fromDate,
+      endDate: toDate
+    };
 
     console.log("Booking Data:", bookingData);
 
-      try {
-    const response = await fetch("http://localhost:8080/booking/addBooking", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(bookingData)
-    });
+    try {
 
-    if (!response.ok) {
-      throw new Error("Booking failed");
+      const response = await fetch(
+        "http://localhost:8080/booking/addBooking",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(bookingData)
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Booking failed");
+      }
+
+      alert("Booking successfully submitted!");
+
+    } catch (error) {
+
+      console.error("Booking Error:", error);
+      alert("Booking failed!");
+
     }
+  };
 
-    alert("Booking successfully submitted!");
-
-  } catch (error) {
-    console.error("Booking Error:", error);
-    alert("Booking failed!");
-  }
-};
 
   return (
-    <div style={cardStyle}>
 
-      {/* LEFT SIDE */}
-      <div style={leftStyle}>
-        <h2 style={titleStyle}>{vehicle?.model}</h2>
+    <div className="vehicle-card">
 
-        {/* Car Image */}
+      {/* ========================= */}
+      {/* IMAGE SECTION */}
+      {/* ========================= */}
+
+      <div className="vehicle-image-section">
+
         <img
           src={`http://localhost:8080/uploads/${vehicle?.imagePath}`}
           alt={vehicle?.model}
-          style={{ width: "100%", marginBottom: "10px" }}
+          className="vehicle-card-image"
         />
 
-        {/* Dates */}
-        <div style={{ display: "flex", gap: "10px" }}>
-          <div style={{ width: "50%" }}>
-            <p>From</p>
-            <input type="date" style={inputStyle} value={fromDate} onChange={(e) => setFromDate(e.target.value)}/>
-          </div>
-          <div style={{ width: "50%" }}>
-            <p>To</p>
-            <input type="date" style={inputStyle} value={toDate} onChange={(e) => setToDate(e.target.value)}/>
-          </div>
-        </div>
-
-        <button style={bookBtnStyle} onClick={handleBookNow}>Book Now!!!</button>
-      </div>
-
-      {/* RIGHT SIDE */}
-      <div style={rightStyle}>
-
-        <div style={infoRowStyle}>
-          <img src="/img/icons8-price-50.png" alt="price" width="25" />
-          <span>{vehicle?.dailyRate}</span>
-        </div>
-
-        <div style={infoRowStyle}>
-          <img src="/img/icons8-car-seat-50.png" alt="seat" width="25" />
-          <span>{vehicle?.seat}</span>
-        </div>
-
-        <div style={infoRowStyle}>
-          <img src="/img/icons8-brand-64.png" alt="brand" width="25" />
-          <span>{vehicle?.brand}</span>
-        </div>
-
-        <div style={infoRowStyle}>
-          <img src="/img/icons8-gas-station-48.png" alt="fuel" width="25" />
-          <span>{vehicle?.fuelType}</span>
-        </div>
-
-        <div style={infoRowStyle}>
-          <img src="/img/icons8-car-50.png" alt="type" width="25" />
-          <span>{vehicle?.type}</span>
+        <div className="vehicle-type-badge">
+          {vehicle?.type}
         </div>
 
       </div>
+
+
+      {/* ========================= */}
+      {/* CARD BODY */}
+      {/* ========================= */}
+
+      <div className="vehicle-card-body">
+
+        {/* VEHICLE NAME + PRICE */}
+
+        <div className="vehicle-card-heading">
+
+          <div>
+            <p className="vehicle-brand">
+              {vehicle?.brand}
+            </p>
+
+            <h2 className="vehicle-model">
+              {vehicle?.model}
+            </h2>
+          </div>
+
+
+          <div className="vehicle-price">
+
+            <span className="vehicle-price-label">
+              Per Day
+            </span>
+
+            <strong>
+              Rs. {Number(
+                vehicle?.dailyRate
+              ).toLocaleString()}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        {/* ========================= */}
+        {/* VEHICLE INFORMATION */}
+        {/* ========================= */}
+
+        <div className="vehicle-info-grid">
+
+          <div className="vehicle-info-item">
+
+            <div className="vehicle-info-icon">
+              <img
+                src="/img/icons8-car-seat-50.png"
+                alt="Seats"
+              />
+            </div>
+
+            <div>
+              <span className="vehicle-info-label">
+                Seats
+              </span>
+
+              <strong>
+                {vehicle?.seat} Seats
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div className="vehicle-info-item">
+
+            <div className="vehicle-info-icon">
+              <img
+                src="/img/icons8-gas-station-48.png"
+                alt="Fuel"
+              />
+            </div>
+
+            <div>
+              <span className="vehicle-info-label">
+                Fuel
+              </span>
+
+              <strong>
+                {vehicle?.fuelType}
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div className="vehicle-info-item">
+
+            <div className="vehicle-info-icon">
+              <img
+                src="/img/icons8-brand-64.png"
+                alt="Brand"
+              />
+            </div>
+
+            <div>
+              <span className="vehicle-info-label">
+                Brand
+              </span>
+
+              <strong>
+                {vehicle?.brand}
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div className="vehicle-info-item">
+
+            <div className="vehicle-info-icon">
+              <img
+                src="/img/icons8-car-50.png"
+                alt="Vehicle Type"
+              />
+            </div>
+
+            <div>
+              <span className="vehicle-info-label">
+                Type
+              </span>
+
+              <strong>
+                {vehicle?.type}
+              </strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* ========================= */}
+        {/* BOOKING DATES */}
+        {/* ========================= */}
+
+        <div className="vehicle-booking-section">
+
+          <p className="booking-section-title">
+            Select Rental Period
+          </p>
+
+
+          <div className="vehicle-date-row">
+
+            {/* FROM */}
+
+            <div className="vehicle-date-field">
+
+              <label>
+                From
+              </label>
+
+              <input
+                type="date"
+                value={fromDate}
+                onChange={(e) =>
+                  setFromDate(e.target.value)
+                }
+              />
+
+            </div>
+
+
+            {/* TO */}
+
+            <div className="vehicle-date-field">
+
+              <label>
+                To
+              </label>
+
+              <input
+                type="date"
+                value={toDate}
+                onChange={(e) =>
+                  setToDate(e.target.value)
+                }
+              />
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* ========================= */}
+        {/* BOOK BUTTON */}
+        {/* ========================= */}
+
+        <button
+          className="vehicle-book-button"
+          onClick={handleBookNow}
+        >
+          Book Now
+        </button>
+
+      </div>
+
     </div>
+
   );
 }
 

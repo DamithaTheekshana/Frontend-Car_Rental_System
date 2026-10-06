@@ -11,7 +11,7 @@ function MainPagesBody({ vehicles }) {
       {/* INTRODUCTION SECTION */}
       {/* ================================= */}
 
-      <section className="rental-intro-section">
+      <section className="rental-intro-section" id="about">
 
         <div className="rental-intro-content">
 
@@ -53,7 +53,7 @@ function MainPagesBody({ vehicles }) {
       {/* VEHICLE SECTION */}
       {/* ================================= */}
 
-      <section className="vehicle-section">
+      <section className="vehicle-section" id="vehicles">
 
         <div className="vehicle-section-container">
 

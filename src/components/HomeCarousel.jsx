@@ -32,7 +32,7 @@ function HomeCarousel() {
           <div className="carousel-item active">
 
             <img
-              src="/img/istockphoto-1344954298-612x612.jpg"
+              src="/img/header.jpg"
               className="d-block w-100 home-carousel-image"
               alt="Family enjoying rental vehicle"
             />
@@ -43,7 +43,7 @@ function HomeCarousel() {
           <div className="carousel-item">
 
             <img
-              src="/img/istockphoto-1331273789-612x612.jpg"
+              src="/img/Honda-Dealership-In-Atlanta-2021-Odyssey-Elite.avif"
               className="d-block w-100 home-carousel-image"
               alt="Car rental service"
             />

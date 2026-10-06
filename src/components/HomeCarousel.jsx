@@ -1,53 +1,280 @@
-import React from 'react'
+import React from "react";
+import "./HomeCarousel.css";
 
 function HomeCarousel() {
+
+  const scrollToVehicles = () => {
+    const vehicleSection = document.getElementById("vehicles");
+
+    if (vehicleSection) {
+      vehicleSection.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  };
+
   return (
-    <>
-      <div id="carouselExample" className="carousel slide position-relative" data-bs-ride="carousel" data-bs-interval="3000">
-            {/* Indicators */}
-            <div className="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" className="active" aria-label="Slide 1" ></button>
-                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2" ></button>
-                <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3" ></button>
-            </div>
+    <section className="home-hero">
 
-            {/* Carousel images */}
-            <div className="carousel-inner">
-                <div className="carousel-item active">
-                    <img src="\img\istockphoto-1344954298-612x612.jpg"className="d-block w-100"alt="Slide 1"style={{ height: "92vh", objectFit: "cover" }}/>
-                </div>
-                <div className="carousel-item">
-                    <img src="\img\istockphoto-1331273789-612x612.jpg"className="d-block w-100"alt="Slide 2"style={{ height: "92vh", objectFit: "cover" }}/>
-                </div>
-                <div className="carousel-item">
-                    <img src="\img\istockphoto-1644775768-612x612.jpg"className="d-block w-100"alt="Slide 3"style={{ height: "92vh", objectFit: "cover" }}/>
-                </div>
-            </div>
+      <div
+        id="carouselExample"
+        className="carousel slide home-carousel"
+        data-bs-ride="carousel"
+        data-bs-interval="4000"
+      >
 
-            {/* 🔥 Fixed Center Text Overlay */}
-            <div className="position-absolute top-50 start-50 translate-middle text-center text-white" style={{ padding: "20px 40px", marginTop: "120px"}}>
-                <h1 style={{background: "rgba(0,0,0,0.4)", borderRadius: "10px", fontSize: "4rem", fontWeight: "650", }} >
-                    <span style={{ color: "#F48B0B" }}>WELCOME</span> TO THE TRIP KEY
-                </h1>
-                <img src="/img/The trip key.png" alt="Logo" style={{ display: "block",  margin: "0 auto 10px auto",  maxHeight: "150px", }} />
-                <br></br>
-                <h5 >Premier Car Rental Services in Sri Lanka</h5>
-            </div>
-            
+        {/* ============================== */}
+        {/* CAROUSEL IMAGES */}
+        {/* ============================== */}
 
-            {/* Controls */}
-            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev"  >
-                <span className="carousel-control-prev-icon"></span>
-                <span className="visually-hidden">Previous</span>
-            </button>
+        <div className="carousel-inner">
 
-            <button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next" >
-                <span className="carousel-control-next-icon"></span>
-                <span className="visually-hidden">Next</span>
-            </button>
+          <div className="carousel-item active">
+
+            <img
+              src="/img/istockphoto-1344954298-612x612.jpg"
+              className="d-block w-100 home-carousel-image"
+              alt="Family enjoying rental vehicle"
+            />
+
+          </div>
+
+
+          <div className="carousel-item">
+
+            <img
+              src="/img/istockphoto-1331273789-612x612.jpg"
+              className="d-block w-100 home-carousel-image"
+              alt="Car rental service"
+            />
+
+          </div>
+
+
+          <div className="carousel-item">
+
+            <img
+              src="/img/istockphoto-1644775768-612x612.jpg"
+              className="d-block w-100 home-carousel-image"
+              alt="Travel with The Trip Key"
+            />
+
+          </div>
+
         </div>
-    </>
-  ) 
+
+
+        {/* ============================== */}
+        {/* DARK OVERLAY */}
+        {/* ============================== */}
+
+        <div className="home-carousel-overlay"></div>
+
+
+        {/* ============================== */}
+        {/* HERO CONTENT */}
+        {/* ============================== */}
+
+        <div className="home-hero-content">
+
+          <div className="home-hero-small-title">
+            <span></span>
+
+            EXPLORE SRI LANKA WITH
+
+            <span></span>
+          </div>
+
+
+          <h1 className="home-hero-title">
+
+            <span className="hero-white-text">
+              THE
+            </span>
+
+            <span className="hero-orange-text">
+              TRIP
+            </span>
+
+            <span className="hero-white-text">
+              KEY
+            </span>
+
+          </h1>
+
+
+          <p className="home-hero-subtitle">
+            Premier Car Rental Services in Sri Lanka
+          </p>
+
+
+          {/* ============================== */}
+          {/* FEATURES */}
+          {/* ============================== */}
+
+          <div className="home-hero-features">
+
+
+            {/* FEATURE 1 */}
+
+            <div className="hero-feature">
+
+              <div className="hero-feature-icon">
+
+                <img
+                  src="/img/icons8-car-50.png"
+                  alt="Vehicles"
+                />
+
+              </div>
+
+              <div>
+                <strong>Wide Range</strong>
+                <span>of Vehicles</span>
+              </div>
+
+            </div>
+
+
+            <div className="hero-feature-divider"></div>
+
+
+            {/* FEATURE 2 */}
+
+            <div className="hero-feature">
+
+              <div className="hero-feature-icon">
+                ✓
+              </div>
+
+              <div>
+                <strong>Safe & Reliable</strong>
+                <span>Service</span>
+              </div>
+
+            </div>
+
+
+            <div className="hero-feature-divider"></div>
+
+
+            {/* FEATURE 3 */}
+
+            <div className="hero-feature">
+
+              <div className="hero-feature-icon">
+                ★
+              </div>
+
+              <div>
+                <strong>Easy Booking</strong>
+                <span>Fast & Simple</span>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          {/* ============================== */}
+          {/* BUTTON */}
+          {/* ============================== */}
+
+          <button
+            className="home-hero-button"
+            onClick={scrollToVehicles}
+          >
+            Explore Vehicles
+
+            <span>
+              →
+            </span>
+          </button>
+
+        </div>
+
+
+        {/* ============================== */}
+        {/* INDICATORS */}
+        {/* ============================== */}
+
+        <div className="carousel-indicators home-carousel-indicators">
+
+          <button
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide-to="0"
+            className="active"
+            aria-current="true"
+            aria-label="Slide 1"
+          ></button>
+
+          <button
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide-to="1"
+            aria-label="Slide 2"
+          ></button>
+
+          <button
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide-to="2"
+            aria-label="Slide 3"
+          ></button>
+
+        </div>
+
+
+        {/* ============================== */}
+        {/* PREVIOUS BUTTON */}
+        {/* ============================== */}
+
+        <button
+          className="carousel-control-prev hero-carousel-control hero-control-left"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="prev"
+        >
+
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+
+          <span className="visually-hidden">
+            Previous
+          </span>
+
+        </button>
+
+
+        {/* ============================== */}
+        {/* NEXT BUTTON */}
+        {/* ============================== */}
+
+        <button
+          className="carousel-control-next hero-carousel-control hero-control-right"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="next"
+        >
+
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+
+          <span className="visually-hidden">
+            Next
+          </span>
+
+        </button>
+
+      </div>
+
+    </section>
+  );
 }
 
-export default HomeCarousel
+export default HomeCarousel;

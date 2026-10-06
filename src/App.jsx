@@ -14,6 +14,7 @@ import AddAdminPage from "./Pages/AddAdminPage";
 import AdminBookingsPage from "./Pages/AdminBookingsPage";
 import AdminReportsPage from "./Pages/AdminReportsPage";
 import CustomerBookingHistoryPage from "./Pages/CustomerBookingHistoryPage";
+import AdminPaymentsPage from "./Pages/AdminPaymentsPage";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/admin/bookings"element={<AdminBookingsPage />}/>
         <Route path="/admin/reports"element={<AdminReportsPage />}/>
         <Route  path="/booking-history"element={<CustomerBookingHistoryPage />}/>
+        <Route path="/admin/payments"element={<AdminPaymentsPage />}/>
       </Routes>
     </>
   

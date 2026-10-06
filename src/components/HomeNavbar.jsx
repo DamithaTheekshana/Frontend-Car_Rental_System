@@ -32,18 +32,11 @@ function HomeNavbar() {
               {user ? (
               <>
 
-                <Link to="/mybookings"style={{color: "white",textDecoration: "none",fontWeight: "600"}}>
+                <Link to="/mybookings"style={{color: "white",textDecoration: "none",fontWeight: "600"}}><img src='/img/icons8-booking-48.png'></img>
                     My Bookings
                 </Link>
 
-                <Link
-                  to="/booking-history"
-                  style={{
-                    color: "white",
-                    textDecoration: "none",
-                    fontWeight: "600"
-                  }}
-                >
+                <Link to="/booking-history"style={{color: "white",textDecoration: "none",fontWeight: "600"}}><img src='/img/icons8-report-50.png'></img>
                   Booking History
                 </Link>
                 

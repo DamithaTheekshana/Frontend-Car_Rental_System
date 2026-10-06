@@ -398,3 +398,35 @@
         width: 100%;
     }
 }
+
+.vehicle-type-select {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #ced4da;
+    border-radius: 7px;
+
+    color: #343a40;
+
+    font-size: 14px;
+
+    outline: none;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.vehicle-type-select:focus {
+    border-color: #ffc107;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 193, 7, 0.15);
+}

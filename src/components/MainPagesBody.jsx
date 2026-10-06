@@ -1,8 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import CarCard from "./CarCard";
 import "./MainPagesBody.css";
 
 function MainPagesBody({ vehicles }) {
+
+  const [selectedType, setSelectedType] = useState("");
+  const [filteredVehicles, setFilteredVehicles] = useState(null);
+
+  // Database eken ena vehicles walin
+  // unique vehicle types tika gannawa
+  const vehicleTypes = [
+    ...new Set(
+      (vehicles || [])
+        .map((vehicle) => vehicle.type)
+        .filter(Boolean)
+    )
+  ];
+
+  // Search button
+  const handleSearch = (e) => {
+
+    e.preventDefault();
+
+    // All Vehicle Types select karala nam
+    // vehicles okkoma pennanawa
+    if (selectedType === "") {
+      setFilteredVehicles(null);
+      return;
+    }
+
+    // Selected type ekata adala vehicles filter karanawa
+    const results = vehicles.filter(
+      (vehicle) =>
+        vehicle.type === selectedType
+    );
+
+    setFilteredVehicles(results);
+  };
+
+
+  // Clear search
+  const handleClearSearch = () => {
+
+    setSelectedType("");
+    setFilteredVehicles(null);
+
+  };
+
+
+  // Display karana vehicles
+  const displayedVehicles =
+    filteredVehicles !== null
+      ? filteredVehicles
+      : vehicles;
+
 
   return (
     <>
@@ -11,7 +62,10 @@ function MainPagesBody({ vehicles }) {
       {/* INTRODUCTION SECTION */}
       {/* ================================= */}
 
-      <section className="rental-intro-section" id="about">
+      <section
+        className="rental-intro-section"
+        id="about"
+      >
 
         <div className="rental-intro-content">
 
@@ -38,10 +92,12 @@ function MainPagesBody({ vehicles }) {
           </p>
 
           <div className="rental-intro-icon">
+
             <img
               src="/img/icons8-car-100.png"
               alt="Car Rental"
             />
+
           </div>
 
         </div>
@@ -53,27 +109,41 @@ function MainPagesBody({ vehicles }) {
       {/* VEHICLE SECTION */}
       {/* ================================= */}
 
-      <section className="vehicle-section" id="vehicles">
+      <section
+        className="vehicle-section"
+        id="vehicles"
+      >
 
         <div className="vehicle-section-container">
 
 
+          {/* ================================= */}
           {/* SEARCH AREA */}
+          {/* ================================= */}
 
           <div className="vehicle-search-box">
 
             <div className="vehicle-search-title">
 
               <div className="vehicle-search-icon">
+
                 <img
                   src="/img/icons8-car-100.png"
                   alt="Car"
                 />
+
               </div>
 
               <div>
-                <span>FIND YOUR VEHICLE</span>
-                <h2>Search Cars</h2>
+
+                <span>
+                  FIND YOUR VEHICLE
+                </span>
+
+                <h2>
+                  Search Cars
+                </h2>
+
               </div>
 
             </div>
@@ -81,51 +151,111 @@ function MainPagesBody({ vehicles }) {
 
             <form
               className="vehicle-search-form"
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={handleSearch}
             >
 
-              <input
-                type="search"
-                placeholder="Select car type..."
-              />
+              {/* VEHICLE TYPE DROPDOWN */}
+
+              <select
+                value={selectedType}
+                onChange={(e) =>
+                  setSelectedType(e.target.value)
+                }
+                className="vehicle-type-select"
+              >
+
+                <option value="">
+                  All Vehicle Types
+                </option>
+
+                {vehicleTypes.map((type) => (
+
+                  <option
+                    key={type}
+                    value={type}
+                  >
+                    {type}
+                  </option>
+
+                ))}
+
+              </select>
+
+
+              {/* SEARCH */}
 
               <button type="submit">
                 Search
               </button>
+
+
+              {/* CLEAR */}
+
+              {filteredVehicles !== null && (
+
+                <button
+                  type="button"
+                  className="vehicle-clear-search"
+                  onClick={handleClearSearch}
+                >
+                  Clear
+                </button>
+
+              )}
 
             </form>
 
           </div>
 
 
+          {/* ================================= */}
           {/* VEHICLE LIST HEADER */}
+          {/* ================================= */}
 
           <div className="vehicle-list-header">
 
             <div>
+
               <span className="vehicle-list-small-title">
                 OUR FLEET
               </span>
 
               <h2>
-                Choose Your Vehicle
+
+                {filteredVehicles !== null
+                  ? `${selectedType} Vehicles`
+                  : "Choose Your Vehicle"
+                }
+
               </h2>
+
             </div>
 
+
             <div className="vehicle-count">
-              {vehicles?.length || 0} Vehicles Available
+
+              {displayedVehicles?.length || 0}
+
+              {(displayedVehicles?.length || 0) === 1
+                ? " Vehicle Available"
+                : " Vehicles Available"
+              }
+
             </div>
 
           </div>
 
 
+          {/* ================================= */}
           {/* VEHICLE CARDS */}
+          {/* ================================= */}
 
-          {vehicles && vehicles.length > 0 ? (
+          {displayedVehicles &&
+          displayedVehicles.length > 0 ? (
 
             <div className="vehicle-card-grid">
 
-              {vehicles.map((vehicle) => (
+              {displayedVehicles.map((vehicle) => (
 
                 <CarCard
                   key={vehicle.vehicleId}
@@ -139,7 +269,9 @@ function MainPagesBody({ vehicles }) {
           ) : (
 
             <div className="no-vehicles-message">
-              No vehicles available.
+
+              No vehicles available for the selected type.
+
             </div>
 
           )}

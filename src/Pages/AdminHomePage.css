@@ -1,0 +1,246 @@
+.admin-bookings-section {
+    padding: 40px 50px;
+    background-color: #f8f9fa;
+    min-height: 400px;
+}
+
+.admin-bookings-title {
+    margin-bottom: 8px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #212529;
+}
+
+.admin-bookings-count {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 15px;
+}
+
+
+/* =========================
+   TABLE WRAPPER
+========================= */
+
+.admin-bookings-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e8e8e8;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.admin-bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1250px;
+}
+
+.admin-bookings-table thead {
+    background-color: #212529;
+    color: white;
+}
+
+.admin-bookings-table th {
+    padding: 15px 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.admin-bookings-table td {
+    padding: 14px 12px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #333333;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.admin-bookings-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.admin-bookings-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.admin-bookings-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================
+   VEHICLE COLUMN
+========================= */
+
+.admin-table-vehicle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 150px;
+}
+
+.admin-table-vehicle-image {
+    width: 120px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #eeeeee;
+    padding: 4px;
+}
+
+.admin-table-vehicle-model {
+    font-weight: 600;
+    font-size: 14px;
+    color: #212529;
+    text-align: center;
+}
+
+
+/* =========================
+   TOTAL AMOUNT
+========================= */
+
+.admin-table-total {
+    font-weight: 700;
+    color: #198754 !important;
+    white-space: nowrap;
+}
+
+
+/* =========================
+   STATUS BADGES
+========================= */
+
+.admin-status-badge {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.admin-pending-badge {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.admin-approved-badge {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+
+/* =========================
+   PAYMENT BADGE
+========================= */
+
+.admin-payment-badge {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    background: #f8d7da;
+    color: #842029;
+    white-space: nowrap;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.admin-table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 155px;
+}
+
+.admin-action-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s ease;
+    white-space: nowrap;
+}
+
+.admin-action-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.admin-approve-btn {
+    background: #198754;
+    color: white;
+}
+
+.admin-reject-btn {
+    background: #dc3545;
+    color: white;
+}
+
+
+/* =========================
+   NO BOOKINGS
+========================= */
+
+.admin-no-bookings {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 35px;
+    text-align: center;
+    color: #666666;
+    font-size: 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 992px) {
+
+    .admin-bookings-section {
+        padding: 30px 25px;
+    }
+
+    .admin-bookings-title {
+        font-size: 24px;
+    }
+}
+
+
+@media (max-width: 576px) {
+
+    .admin-bookings-section {
+        padding: 25px 15px;
+    }
+
+    .admin-bookings-title {
+        font-size: 22px;
+    }
+
+    .admin-bookings-count {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,238 @@
+/* ==============================
+   PAGE
+============================== */
+
+.admin-all-bookings-page {
+    padding: 40px 50px;
+    min-height: 100vh;
+    background-color: #f5f6f8;
+}
+
+.admin-all-bookings-title {
+    margin-bottom: 8px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #212529;
+}
+
+.admin-all-bookings-count {
+    color: #666666;
+    margin-bottom: 25px;
+    font-size: 15px;
+}
+
+
+/* ==============================
+   TABLE WRAPPER
+============================== */
+
+.admin-all-bookings-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ==============================
+   TABLE
+============================== */
+
+.admin-all-bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1150px;
+}
+
+.admin-all-bookings-table thead {
+    background-color: #212529;
+    color: white;
+}
+
+.admin-all-bookings-table th {
+    padding: 15px 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.admin-all-bookings-table td {
+    padding: 14px 12px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #333333;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.admin-all-bookings-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.admin-all-bookings-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.admin-all-bookings-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ==============================
+   VEHICLE IMAGE + MODEL
+============================== */
+
+.admin-all-bookings-vehicle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 150px;
+}
+
+.admin-all-bookings-vehicle-image {
+    width: 120px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #eeeeee;
+    padding: 4px;
+}
+
+.admin-all-bookings-vehicle-model {
+    font-size: 14px;
+    font-weight: 600;
+    color: #212529;
+    text-align: center;
+}
+
+
+/* ==============================
+   MONEY
+============================== */
+
+.admin-all-bookings-rate {
+    white-space: nowrap;
+}
+
+.admin-all-bookings-total {
+    font-weight: 700;
+    color: #198754 !important;
+    white-space: nowrap;
+}
+
+
+/* ==============================
+   BOOKING STATUS
+============================== */
+
+.admin-all-bookings-status {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.booking-status-pending {
+    background-color: #fff3cd;
+    color: #664d03;
+}
+
+.booking-status-approved {
+    background-color: #cfe2ff;
+    color: #084298;
+}
+
+.booking-status-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.booking-status-default {
+    background-color: #e2e3e5;
+    color: #41464b;
+}
+
+
+/* ==============================
+   PAYMENT STATUS
+============================== */
+
+.admin-all-bookings-payment {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.booking-payment-paid {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.booking-payment-unpaid {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+
+/* ==============================
+   NO BOOKINGS
+============================== */
+
+.admin-all-bookings-empty {
+    background-color: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 35px;
+    text-align: center;
+    color: #666666;
+    font-size: 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+/* ==============================
+   RESPONSIVE
+============================== */
+
+@media (max-width: 992px) {
+
+    .admin-all-bookings-page {
+        padding: 30px 25px;
+    }
+
+    .admin-all-bookings-title {
+        font-size: 24px;
+    }
+}
+
+
+@media (max-width: 576px) {
+
+    .admin-all-bookings-page {
+        padding: 25px 15px;
+    }
+
+    .admin-all-bookings-title {
+        font-size: 22px;
+    }
+
+    .admin-all-bookings-count {
+        font-size: 14px;
+    }
+
+    .admin-all-bookings-vehicle-image {
+        width: 110px;
+        height: 75px;
+    }
+}
